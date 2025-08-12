@@ -159,7 +159,7 @@ def _parse_llm_content_key(key: str) -> Optional[tuple[str, str]]:
     """Parse LLM content key to extract prefix and origin part.
 
     Returns:
-        tuple[str, str] | None: Tuple of (prefix, origin) if valid, None otherwise.
+        Optional[tuple[str, str]]: Tuple of (prefix, origin) if valid, None otherwise.
     """
     try:
         key_parts = key.split(".")
