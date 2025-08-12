@@ -37,7 +37,7 @@ def _extract_attribute_value(attr_value: common_pb2.AnyValue) -> Union[str, int,
         elif value_type == "bool_value":
             return attr_value.bool_value
         else:
-            logger.debug(f"Unknown attribute value type: {value_type}")
+            logger.debug(f"Unknown attribute value type: {value_type} in attribute: {attr_value}")
             return None
     except (AttributeError, ValueError) as e:
         logger.debug(f"Failed to extract attribute value from {attr_value}: {e}")

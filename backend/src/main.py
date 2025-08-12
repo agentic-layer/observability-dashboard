@@ -55,9 +55,9 @@ async def receive_traces(request: Request):
 
 def validate_conversation_id(conversation_id: str) -> bool:
     """Validate conversation_id format - supports UUID4 format (alphanumeric + hyphens), max 100 chars"""
-    if not conversation_id or len(conversation_id) > 100:
+    if not conversation_id:
         return False
-    return re.match(r"^[a-zA-Z0-9_-]+$", conversation_id) is not None
+    return re.match(r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", conversation_id) is not None # match conversation_id to uuid4 format
 
 
 @app.websocket("/ws/{conversation_id}")
