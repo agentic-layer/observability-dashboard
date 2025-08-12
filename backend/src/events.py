@@ -237,7 +237,6 @@ def _process_content_non_text_properties(
 ) -> Optional[Dict[str, Any]]:
     content = {}
     for key, value in attributes.items():
-        # new_key = key.removeprefix(prefix + ".")
         new_key = key.split(".")[-1]
         content[new_key] = value
     content["origin"] = origin
@@ -384,7 +383,7 @@ def create_tool_call_end_event(
     tool_name = attributes.get("tool_name")
     arguments = _extract_arguments(attributes)
     logger.debug(
-        f"Processing tool call end event attributes for tool '{tool_name}': {json.dumps(attributes, indent=2, default=str)}"
+        f"Processing tool call end event for tool '{tool_name}', invocation_id '{invocation_id}', arguments: {arguments}"
     )
     response = _extract_tool_response(attributes)
     if response is not None:
