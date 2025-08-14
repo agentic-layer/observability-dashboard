@@ -17,4 +17,16 @@ spec:
         - name: agent-communications-dashboard-backend
           image: agent-communications-dashboard-backend:latest
           ports:
-            - containerPort: 8000
+          - containerPort: 8000
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            httpGet:
+              port: 8000
+              path: /health
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+              port: 8000
+              path: /health
