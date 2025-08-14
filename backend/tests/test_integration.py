@@ -108,8 +108,8 @@ def create_test_spans_from_mock_data(mock_data: List[Dict[str, Any]], client: Te
             attributes = span_data.get("attributes", {})
             for key, value in attributes.items():
                 span.set_attribute(key, value)
-            time.sleep(5e-9)
-        time.sleep(20e-6)
+            time.sleep(0.001)  # Simulate some processing time during the span
+        time.sleep(0.01)  # Simulate processing between spans
 
 
 def test_full_system_integration(client, mock_spans_data, tracer_provider):
