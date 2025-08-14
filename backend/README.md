@@ -52,24 +52,10 @@ uv run fastapi dev src/agent_monitor/main.py
 uv run fastapi run src/agent_monitor/main.py
 ```
 
-#### Option 2: Docker
+#### Option 2: Kubernetes with Tilt
 ```bash
-# Build the Docker image
-docker build -t agent-communications-dashboard-backend .
-
-# Run the container
-docker run -p 8000:8000 agent-communications-dashboard-backend
-```
-
-#### Option 3: Kubernetes with Tilt (Full Development Environment)
-```bash
-# Option 3a: Full stack from project root directory (recommended)
 # From project root:
 tilt up
-
-# Option 3b: Backend only from backend directory
-# From project root:
-cd backend && tilt up
 
 # The backend will be available at http://localhost:10005
 # Tilt UI available at http://localhost:10350
