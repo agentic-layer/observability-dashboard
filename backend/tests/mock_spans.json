@@ -1,0 +1,513 @@
+[
+  {
+    "name": "before_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What can you do?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-00112233-4455-6677-8899-aabbccddeeff"
+    }
+  },
+  {
+    "name": "before_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What can you do?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-00112233-4455-6677-8899-aabbccddeeff",
+      "model": "gemini-2.5-flash-lite",
+      "llm_request.content.parts.0.text": "What can you do?",
+      "llm_request.content.role": "user"
+    }
+  },
+  {
+    "name": "after_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What can you do?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-00112233-4455-6677-8899-aabbccddeeff",
+      "llm_response.content.parts.0.thought": "The user is asking for my capabilities. I need to introduce myself and explain my purpose. I am a host agent that can delegate tasks to a weather agent and a time agent. I should state this clearly and provide an example of how to interact with me.",
+      "llm_response.content.parts.1.thought_signature": "b'\\n\\xed\\x02\\x01T\\xa8\\\\\\xee\\x9bi\\xe8h\\x80\\xefm4\\x9c\\xd6\\xf7\\x81\\xf4\\x8c\\xd5C\\xf4$\\x97\\xca\\x9ez\\xea\\xdd\\xb1\\x86\\x07\\x93\\\\E\\xdc,\\x0fq\\x1eY\\x17f>\\x82\\xf2\\x84\\x8f!DY.f\\xdb\\x8c\\x1c\\x94kGF\\xe0\\\\\\xc2rzv\\xfc\\'#PS!v\\x83\\x0b\\xe1C\\xde!\\xfe\\xa1\\x00n\\x12\\xdf\\xc4`\\r\\xbbn\\x8d\\x93\\x1f\\xa0\\xa2ua\\x94\\xa7V\\xd1\\xde\\x80\\xcbW\\xda/J6\\xb9L\\xd5\\x18\\xd6!\\xbbZ\\xa7qF\\x9atEDw\\xec\\x0cdNi\\x16A\\xe2\\xe1\\xab\\x06\\xb8\\xe7\\xf9\\xd46\\x871\\xea\\xcdr\\x9d/\\x8bu\\xbeiwf,(#\\xd7\\x1c\\xe6@\\x01\\xa5\\xd0\\xd7m\\x80\\x95(:\\xf0%!\\xf2\\x1e^\\xf1\\xfb\\x8fs\\xe3\\xba\\x99eu\\xd1IL\\x8f\\x97\\x00|\\xf7\\xe2\\xdbF\\x90\\x91\\xf6\\x0fu\\xeb\\x11\\x03\\xa8\\xfe\\xc5\\xa4\\x9c)\\x82\\xa1\\x9b\\xabf>\\x1deQ\\x13#\\x0e\\xe3$\\xbf\\x0eyq\\x14\\xc9=m\\xf9k\\x08\\xfb\\'\\x1b\\\\\\xbe\\x1dUR\\xfa\\xad\\x82\\xd5\\xd9\\x00\\x96\\x0c\\x17\\x9cci\\xb9\\xa3w\\xd8\\x0c\\x1ckT\\xbd\\xd5)e<0\\xba\\xfaA\\xa6.K\\xd3vp\"\\xed\\xe7Z\\xff\\xfe1\\xd9\\xc2/uJZ\\x94v\\x0fxb\\xa8z\\x14\\xa3\\xa9\\xcc\\x8f\\xfa\\xf7\\x89\\x86\\xb7\\x15\\x96\\x1f`t\\x19\\xb7\\xbaK\\x1d\\x00\\x023u\\xec\\x12\\x01\\xee\\x89\\xfd\\x9fT(\\xa6\\x11\\x9d\\xce\\xcf$\\xd9\\x08_T\\x137\\x96\\xb2\\xebA\\xf5g\\x0b\\xb25tk\\x91\\xdb\\x9bQ\\x94\\t\\xd59U-]'",
+      "llm_response.content.parts.1.text": "I can provide you with the current time and weather for any city. Just ask me something like, 'What is the weather and time in London?'",
+      "llm_response.content.role": "model",
+      "llm_response.usage_metadata.candidates_token_count": 180,
+      "llm_response.usage_metadata.prompt_token_count": 1363,
+      "llm_response.usage_metadata.prompt_tokens_details.0.modality": "TEXT",
+      "llm_response.usage_metadata.prompt_tokens_details.0.token_count": 1363,
+      "llm_response.usage_metadata.thoughts_token_count": 203,
+      "llm_response.usage_metadata.total_token_count": 1746
+    }
+  },
+  {
+    "name": "after_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What can you do?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-00112233-4455-6677-8899-aabbccddeeff"
+    }
+  },
+  {
+    "name": "before_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff"
+    }
+  },
+  {
+    "name": "before_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
+      "model": "gemini-2.5-flash-lite",
+      "llm_request.content.parts.0.text": "What is the weather and time in New York City?",
+      "llm_request.content.role": "user"
+    }
+  },
+  {
+    "name": "after_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
+      "llm_response.content.parts.0.thought": "The user wants the current weather and time for New York City. I need to use the specialized agents for this. I will call the 'send_message' tool to delegate tasks to the weather-agent and the time-agent.",
+      "llm_response.content.parts.1.function_call.name": "send_message",
+      "llm_response.content.parts.1.function_call.args.agent_name": "weather-agent",
+      "llm_response.content.parts.1.function_call.args.task": "Get weather for New York City",
+      "llm_response.content.parts.2.function_call.name": "send_message",
+      "llm_response.content.parts.2.function_call.args.agent_name": "time-agent",
+      "llm_response.content.parts.2.function_call.args.task": "Get time for New York City",
+      "llm_response.content.role": "model",
+      "llm_response.usage_metadata.candidates_token_count": 130,
+      "llm_response.usage_metadata.prompt_token_count": 1824,
+      "llm_response.usage_metadata.prompt_tokens_details.0.modality": "TEXT",
+      "llm_response.usage_metadata.prompt_tokens_details.0.token_count": 1824,
+      "llm_response.usage_metadata.thoughts_token_count": 697,
+      "llm_response.usage_metadata.total_token_count": 2651
+    }
+  },
+  {
+    "name": "before_tool_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
+      "tool_name": "send_message",
+      "args.agent_name": "weather-agent",
+      "args.task": "Get weather for New York City"
+    }
+  },
+  {
+    "name": "before_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "weather-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get weather for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff"
+    }
+  },
+  {
+    "name": "before_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "weather-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get weather for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff",
+      "model": "gemini-2.5-flash-lite",
+      "llm_request.content.parts.0.text": "Get weather for New York City",
+      "llm_request.content.role": "user"
+    }
+  },
+  {
+    "name": "after_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "weather-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get weather for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff",
+      "llm_response.content.parts.0.thought": true,
+      "llm_response.content.parts.0.text": "**Initial Assessment**\n\nThe user wants the weather for New York City. My purpose is to provide weather information. I have a tool called `get_weather_from_api` that can fetch this data. I will call this tool with the city 'New York City'.",
+      "llm_response.content.parts.1.function_call.args.city": "New York City",
+      "llm_response.content.parts.1.function_call.name": "get_weather_from_api",
+      "llm_response.content.role": "model",
+      "llm_response.usage_metadata.candidates_token_count": 24,
+      "llm_response.usage_metadata.prompt_token_count": 1912,
+      "llm_response.usage_metadata.thoughts_token_count": 139,
+      "llm_response.usage_metadata.total_token_count": 2075
+    }
+  },
+  {
+    "name": "before_tool_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "weather-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get weather for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff",
+      "tool_name": "get_weather_from_api",
+      "args.city": "New York City"
+    }
+  },
+  {
+    "name": "after_tool_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "weather-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get weather for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff",
+      "tool_name": "get_weather_from_api",
+      "args.city": "New York City",
+      "tool_response.content.0.type": "text",
+      "tool_response.content.0.text": "{\"status\":\"success\",\"data\":{\"city\":\"New York City\",\"temperature_f\":75,\"condition\":\"Partly cloudy\"}}",
+      "tool_response.isError": false
+    }
+  },
+  {
+    "name": "before_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "weather-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get weather for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff",
+      "model": "gemini-2.5-flash-lite",
+      "llm_request.content.parts.0.function_response.name": "get_weather_from_api",
+      "llm_request.content.parts.0.function_response.response.result.content.0.type": "text",
+      "llm_request.content.parts.0.function_response.response.result.content.0.text": "{\"status\":\"success\",\"data\":{\"city\":\"New York City\",\"temperature_f\":75,\"condition\":\"Partly cloudy\"}}",
+      "llm_request.content.parts.0.function_response.response.result.isError": false,
+      "llm_request.content.role": "user"
+    }
+  },
+  {
+    "name": "after_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "weather-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get weather for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff",
+      "llm_response.content.parts.0.thought": true,
+      "llm_response.content.parts.0.text": "I have received the weather information from the API. Now I need to format this into a clear, human-readable string to send back to the host agent.",
+      "llm_response.content.parts.1.text": "The weather is partly cloudy with a temperature of 75°F.",
+      "llm_response.content.role": "model",
+      "llm_response.usage_metadata.candidates_token_count": 3195,
+      "llm_response.usage_metadata.prompt_token_count": 6535,
+      "llm_response.usage_metadata.thoughts_token_count": 1406,
+      "llm_response.usage_metadata.total_token_count": 11136
+    }
+  },
+  {
+    "name": "before_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What can you do?",
+      "user_content.role": "user",
+      "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
+      "invocation_id": "e-33445566-7788-9900-1122-ccddeeff1122"
+    }
+  },
+  {
+    "name": "after_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "weather-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get weather for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff"
+    }
+  },
+  {
+    "name": "after_tool_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
+      "tool_name": "send_message",
+      "args.agent_name": "weather-agent",
+      "args.task": "Get weather for New York City",
+      "tool_response.0.kind": "text",
+      "tool_response.0.text": "The weather is partly cloudy with a temperature of 75°F."
+    }
+  },
+  {
+    "name": "before_tool_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
+      "tool_name": "send_message",
+      "args.agent_name": "time-agent",
+      "args.task": "Get time for New York City"
+    }
+  },
+  {
+    "name": "before_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What can you do?",
+      "user_content.role": "user",
+      "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
+      "invocation_id": "e-33445566-7788-9900-1122-ccddeeff1122",
+      "model": "gemini-2.5-flash-lite",
+      "llm_request.content.parts.0.text": "What can you do?",
+      "llm_request.content.role": "user"
+    }
+  },
+  {
+    "name": "before_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "time-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get time for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff"
+    }
+  },
+  {
+    "name": "before_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "time-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get time for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff",
+      "model": "gemini-2.5-flash-lite",
+      "llm_request.content.parts.0.text": "Get time for New York City",
+      "llm_request.content.role": "user"
+    }
+  },
+  {
+    "name": "after_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "time-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get time for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff",
+      "llm_response.content.parts.0.thought": true,
+      "llm_response.content.parts.0.text": "**Initial Assessment**\n\nThe user wants the time for New York City. My purpose is to provide time information. I have a tool called `get_time_from_api` that can fetch this data. I will call this tool with the city 'New York City'.",
+      "llm_response.content.parts.1.function_call.args.city": "New York City",
+      "llm_response.content.parts.1.function_call.name": "get_time_from_api",
+      "llm_response.content.role": "model",
+      "llm_response.usage_metadata.candidates_token_count": 24,
+      "llm_response.usage_metadata.prompt_token_count": 1912,
+      "llm_response.usage_metadata.thoughts_token_count": 139,
+      "llm_response.usage_metadata.total_token_count": 2075
+    }
+  },
+  {
+    "name": "before_tool_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "time-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get time for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff",
+      "tool_name": "get_time_from_api",
+      "args.city": "New York City"
+    }
+  },
+  {
+    "name": "after_tool_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "time-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get time for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff",
+      "tool_name": "get_time_from_api",
+      "args.city": "New York City",
+      "tool_response.content.0.type": "text",
+      "tool_response.content.0.text": "{\"status\":\"success\",\"data\":{\"city\":\"New York City\",\"time\":\"10:41 AM\"}}",
+      "tool_response.isError": false
+    }
+  },
+  {
+    "name": "before_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "time-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get time for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff",
+      "model": "gemini-2.5-flash-lite",
+      "llm_request.content.parts.0.function_response.name": "get_time_from_api",
+      "llm_request.content.parts.0.function_response.response.result.content.0.type": "text",
+      "llm_request.content.parts.0.function_response.response.result.content.0.text": "{\"status\":\"success\",\"data\":{\"city\":\"New York City\",\"time\":\"10:41 AM\"}}",
+      "llm_request.content.parts.0.function_response.response.result.isError": false,
+      "llm_request.content.role": "user"
+    }
+  },
+  {
+    "name": "after_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "time-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get time for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff",
+      "llm_response.content.parts.0.thought": true,
+      "llm_response.content.parts.0.text": "I have received the time information from the API. Now I need to format this into a clear, human-readable string to send back to the host agent.",
+      "llm_response.content.parts.1.text": "The current time is 10:41 AM.",
+      "llm_response.content.role": "model",
+      "llm_response.usage_metadata.candidates_token_count": 3195,
+      "llm_response.usage_metadata.prompt_token_count": 6535,
+      "llm_response.usage_metadata.thoughts_token_count": 1406,
+      "llm_response.usage_metadata.total_token_count": 11136
+    }
+  },
+  {
+    "name": "after_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "time-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "Get time for New York City",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff"
+    }
+  },
+  {
+    "name": "after_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What can you do?",
+      "user_content.role": "user",
+      "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
+      "invocation_id": "e-33445566-7788-9900-1122-ccddeeff1122",
+      "llm_response.content.parts.0.thought": "The user is asking for my capabilities. I need to introduce myself and explain my purpose. I am a host agent that can delegate tasks to a weather agent and a time agent. I should state this clearly and provide an example of how to interact with me.",
+      "llm_response.content.parts.1.thought_signature": "b'\\n\\xed\\x02\\x01T\\xa8\\\\\\xee\\x9bi\\xe8h\\x80\\xefm4\\x9c\\xd6\\xf7\\x81\\xf4\\x8c\\xd5C\\xf4$\\x97\\xca\\x9ez\\xea\\xdd\\xb1\\x86\\x07\\x93\\\\E\\xdc,\\x0fq\\x1eY\\x17f>\\x82\\xf2\\x84\\x8f!DY.f\\xdb\\x8c\\x1c\\x94kGF\\xe0\\\\\\xc2rzv\\xfc\\'#PS!v\\x83\\x0b\\xe1C\\xde!\\xfe\\xa1\\x00n\\x12\\xdf\\xc4`\\r\\xbbn\\x8d\\x93\\x1f\\xa0\\xa2ua\\x94\\xa7V\\xd1\\xde\\x80\\xcbW\\xda/J6\\xb9L\\xd5\\x18\\xd6!\\xbbZ\\xa7qF\\x9atEDw\\xec\\x0cdNi\\x16A\\xe2\\xe1\\xab\\x06\\xb8\\xe7\\xf9\\xd46\\x871\\xea\\xcdr\\x9d/\\x8bu\\xbeiwf,(#\\xd7\\x1c\\xe6@\\x01\\xa5\\xd0\\xd7m\\x80\\x95(:\\xf0%!\\xf2\\x1e^\\xf1\\xfb\\x8fs\\xe3\\xba\\x99eu\\xd1IL\\x8f\\x97\\x00|\\xf7\\xe2\\xdbF\\x90\\x91\\xf6\\x0fu\\xeb\\x11\\x03\\xa8\\xfe\\xc5\\xa4\\x9c)\\x82\\xa1\\x9b\\xabf>\\x1deQ\\x13#\\x0e\\xe3$\\xbf\\x0eyq\\x14\\xc9=m\\xf9k\\x08\\xfb\\'\\x1b\\\\\\xbe\\x1dUR\\xfa\\xad\\x82\\xd5\\xd9\\x00\\x96\\x0c\\x17\\x9cci\\xb9\\xa3w\\xd8\\x0c\\x1ckT\\xbd\\xd5)e<0\\xba\\xfaA\\xa6.K\\xd3vp\"\\xed\\xe7Z\\xff\\xfe1\\xd9\\xc2/uJZ\\x94v\\x0fxb\\xa8z\\x14\\xa3\\xa9\\xcc\\x8f\\xfa\\xf7\\x89\\x86\\xb7\\x15\\x96\\x1f`t\\x19\\xb7\\xbaK\\x1d\\x00\\x023u\\xec\\x12\\x01\\xee\\x89\\xfd\\x9fT(\\xa6\\x11\\x9d\\xce\\xcf$\\xd9\\x08_T\\x137\\x96\\xb2\\xebA\\xf5g\\x0b\\xb25tk\\x91\\xdb\\x9bQ\\x94\\t\\xd59U-]'",
+      "llm_response.content.parts.1.text": "I can provide you with the current time and weather for any city. Just ask me something like, 'What is the weather and time in London?'",
+      "llm_response.content.role": "model",
+      "llm_response.usage_metadata.candidates_token_count": 180,
+      "llm_response.usage_metadata.prompt_token_count": 1363,
+      "llm_response.usage_metadata.prompt_tokens_details.0.modality": "TEXT",
+      "llm_response.usage_metadata.prompt_tokens_details.0.token_count": 1363,
+      "llm_response.usage_metadata.thoughts_token_count": 203,
+      "llm_response.usage_metadata.total_token_count": 1746
+    }
+  },
+  {
+    "name": "after_tool_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
+      "tool_name": "send_message",
+      "args.agent_name": "time-agent",
+      "args.task": "Get time for New York City",
+      "tool_response.0.kind": "text",
+      "tool_response.0.text": "The current time is 10:41 AM."
+    }
+  },
+  {
+    "name": "before_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
+      "model": "gemini-2.5-flash-lite",
+      "llm_request.content.parts.0.function_response.name": "send_message",
+      "llm_request.content.parts.0.function_response.response.result.0.kind": "text",
+      "llm_request.content.parts.0.function_response.response.result.0.text": "The weather is partly cloudy with a temperature of 75°F.",
+      "llm_request.content.role": "user"
+    }
+  },
+  {
+    "name": "after_model_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
+      "llm_response.content.parts.0.text": "The current time in New York City is 10:41 AM. The weather is partly cloudy with a temperature of 75°F.",
+      "llm_response.content.role": "model",
+      "llm_response.usage_metadata.candidates_token_count": 2401,
+      "llm_response.usage_metadata.prompt_token_count": 6021,
+      "llm_response.usage_metadata.prompt_tokens_details.0.modality": "TEXT",
+      "llm_response.usage_metadata.prompt_tokens_details.0.token_count": 6021,
+      "llm_response.usage_metadata.total_token_count": 8422
+    }
+  },
+  {
+    "name": "after_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What is the weather and time in New York City?",
+      "user_content.role": "user",
+      "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
+      "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff"
+    }
+  },
+  {
+    "name": "after_agent_callback_agent_communications_dashboard",
+    "attributes": {
+      "agent_name": "host-agent",
+      "agent_communication_dashboard": true,
+      "user_content.parts.0.text": "What can you do?",
+      "user_content.role": "user",
+      "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
+      "invocation_id": "e-33445566-7788-9900-1122-ccddeeff1122"
+    }
+  }
+]
