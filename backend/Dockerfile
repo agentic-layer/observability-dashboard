@@ -13,7 +13,6 @@ RUN uv sync --frozen
 
 # Copy source code after dependency installation
 COPY src/ ./src/
-COPY tests/ ./tests/
 
 # Expose port
 EXPOSE 8000
