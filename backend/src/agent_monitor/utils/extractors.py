@@ -29,7 +29,7 @@ SUPPORTED_CONTENT_PARTS = {
 _PATTERN_TEXT_LLM_REQUEST = re.compile(r"llm_request\.content\.parts\.\d+\.text")
 _PATTERN_FUNCTION_RESPONSE_LLM_REQUEST = re.compile(r"llm_request\.content\.parts\.(\d+)\.function_response\.name")
 _PATTERN_TEXT_LLM_RESPONSE = re.compile(r"llm_response\.content\.parts\.\d+\.text")
-_PATTERN_FUNCTION_CALL_LLM_RESPONSE = re.compile(r"llm_response\.content\.parts\.(\d+)\.fucntion_call\.name")
+_PATTERN_FUNCTION_CALL_LLM_RESPONSE = re.compile(r"llm_response\.content\.parts\.(\d+)\.function_call\.name")
 
 
 def extract_invoked_agent(attributes: Dict[str, Any]) -> str:

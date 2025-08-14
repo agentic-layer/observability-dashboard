@@ -15,7 +15,7 @@ class BaseEvent:
         timestamp (str): ISO 8601 timestamp in UTC (e.g., "2024-01-15T10:30:00Z").
         event_type (str): Event type discriminator. Possible values:
             - "agent_start": Agent begins execution
-            - "agent_end": Agent completes execution  
+            - "agent_end": Agent completes execution
             - "llm_call_start": LLM request initiated
             - "llm_call_end": LLM response received
             - "llm_call_error": LLM call failed
