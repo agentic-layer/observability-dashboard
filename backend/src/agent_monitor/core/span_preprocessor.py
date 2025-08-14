@@ -6,8 +6,8 @@ from opentelemetry.proto.collector.trace.v1 import trace_service_pb2
 from opentelemetry.proto.common.v1 import common_pb2
 from opentelemetry.proto.trace.v1 import trace_pb2
 
-from .events import (
-    CommunicationEvent,
+from ..models.events import CommunicationEvent
+from ..utils.factories import (
     create_agent_end_event,
     create_agent_start_event,
     create_llm_call_end_event,
@@ -37,10 +37,10 @@ def _extract_attribute_value(attr_value: common_pb2.AnyValue) -> Union[str, int,
         elif value_type == "bool_value":
             return attr_value.bool_value
         else:
-            logger.debug(f"Unknown attribute value type: {value_type}")
+            logger.warning(f"Unknown attribute value type: {value_type}")
             return None
     except (AttributeError, ValueError) as e:
-        logger.debug(f"Failed to extract attribute value from type {type(attr_value).__name__}: {e}")
+        logger.exception(f"Failed to extract attribute value from type {type(attr_value).__name__}: {e}")
         return None
 
 
