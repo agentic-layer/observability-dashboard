@@ -12,10 +12,11 @@ COPY uv.lock pyproject.toml ./
 RUN uv sync --frozen
 
 # Copy source code after dependency installation
-COPY . ./backend
+COPY src/ ./src/
+COPY tests/ ./tests/
 
 # Expose port
 EXPOSE 8000
 
-# Run FastAPI application with uv and uvicorn
-CMD uv run uvicorn backend.src.main:app --host 0.0.0.0 --port 8000
+# Run FastAPI application with uv and fastapi
+CMD ["uv", "run", "fastapi", "run", "src/agent_monitor/main.py"]

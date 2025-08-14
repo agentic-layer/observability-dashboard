@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-communications-dashboard-backend
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agent-communications-dashboard-backend
+  template:
+    metadata:
+      labels:
+        app: agent-communications-dashboard-backend
+    spec:
+      containers:
+        - name: agent-communications-dashboard-backend
+          image: agent-communications-dashboard-backend:latest
+          ports:
+            - containerPort: 8000
