@@ -1,23 +1,19 @@
 # Agent Communication Dashboard
 
-A real-time dashboard backend service for monitoring and visualizing inter-agent communications through OpenTelemetry tracing data. Built with FastAPI and WebSocket support for live event streaming.
+A real-time observability service for monitoring agentic systems. Ingests OpenTelemetry traces from multi-agent applications and transforms them into structured communication events, broadcasting them via WebSocket for live monitoring.
 
-## Overview
+## What This Project Does
 
-The Agent Communication Dashboard processes OpenTelemetry traces from multi-agent systems and transforms them into structured communication events. These events are then broadcasted via WebSocket connections to enable real-time monitoring of agent interactions, LLM calls, tool invocations, and system events.
+This dashboard service solves the observability challenge in multi-agent systems by:
 
-This service acts as the observability backbone for agentic systems, providing crucial insights into agent behavior and communication patterns.
+1. **Trace Ingestion**: Receives OpenTelemetry traces from agent frameworks via OTLP HTTP
+2. **Event Processing**: Converts raw telemetry spans into structured communication events (agent lifecycle, LLM calls, tool invocations)  
+3. **Real-time Streaming**: Broadcasts processed events to WebSocket clients for live dashboard updates
+4. **Conversation Filtering**: Supports both global event streams and conversation-specific filtering
+
+The service acts as a centralized hub for understanding agent behavior, communication patterns, and system performance in production agentic applications.
 
 ## Architecture
-
-### Components
-
-- **FastAPI Service** (`backend/src/main.py`) - REST API endpoints and WebSocket management
-- **Span Preprocessor** (`backend/src/span_preprocessor.py`) - Converts OpenTelemetry spans to communication events
-- **Connection Manager** (`backend/src/connection_manager.py`) - Manages WebSocket connections and broadcasting
-- **Event Models** (`backend/src/events.py`) - Structured dataclasses for different event types
-
-### Event Flow
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
@@ -32,13 +28,13 @@ This service acts as the observability backbone for agentic systems, providing c
                        └──────────────────┘
 ```
 
+The backend service processes incoming traces and broadcasts structured events to connected WebSocket clients. See [`backend/README.md`](backend/README.md) for implementation details.
+
 ## Prerequisites
 
 - **Python 3.13+**: Required for the backend service
-- **Docker**: For containerized development
-- **Kubernetes**: Local cluster (Docker Desktop, Rancher Desktop, Colima, or k3d)
-- **Tilt**: For local development orchestration
 - **uv**: Package manager for Python projects
+- **Kubernetes cluster**: Required for Tilt development (see Local Kubernetes Setup below)
 
 ## Setup
 
@@ -53,45 +49,31 @@ cd backend
 uv sync
 ```
 
-### 2. Integration Setup
+### 2. Running Locally (Backend)
 
-This service is designed to run as part of the [cross-selling-use-case](../cross-selling-use-case) system. Follow the setup instructions in that repository for the complete Kubernetes and Tilt configuration.
+See [backend/README.md](backend/README.md) for detailed instructions on running the service locally.
 
-## Development
+## Local Kubernetes Setup
 
-### Local Deployment
+For local development, you need a Kubernetes cluster.
+Use your preferred method to set up a local Kubernetes cluster. Docker Desktop, Ranger Desktop and Colima all provide standard Kubernetes clusters. Those are recommended.
 
-When integrated with the cross-selling use case, the dashboard backend is automatically deployed as part of the full system:
+Alternatively, use `k3d` for a lightweight solution.
 
+Using `k3d`, create a local registry and cluster:
 ```bash
-# From the cross-selling-use-case directory
-tilt up
-
-# The dashboard backend will be available at:
-# http://localhost:10005
-```
-
-### Code Quality
-
-The project includes comprehensive code quality tools:
-
-```bash
-# Run all checks
-cd backend
-uv run poe check
-
-# Individual checks
-uv run poe mypy          # Type checking
-uv run poe ruff          # Linting and formatting
-uv run poe bandit        # Security analysis
-uv run poe lint-imports  # Import linting
+brew install k3d
+k3d registry create local-paal-registry --port 6169
+# Currently required for Colima users. See https://github.com/k3d-io/k3d/pull/1584
+export K3D_FIX_DNS=0
+k3d cluster create local-paal --registry-use k3d-local-paal-registry
 ```
 
 ## API Reference
 
 ### Trace Ingestion
 
-- **POST** `/v1/traces` - Receives OpenTelemetry trace data (protobuf format)
+- **POST** `/v1/traces` - Receives OpenTelemetry trace data (protobuf format) following the [OTLP specification](https://opentelemetry.io/docs/specs/otlp/#otlphttp-request)
 
 ### WebSocket Connections
 
@@ -100,29 +82,7 @@ uv run poe lint-imports  # Import linting
 
 ## Event Types
 
-The system processes traces into the following structured events:
-
-### Agent Events
-- `agent_start` - Agent initialization
-- `agent_end` - Agent termination
-
-### LLM Events
-- `llm_call_start` - LLM request initiated
-- `llm_call_end` - LLM response received
-- `llm_call_error` - LLM request failed
-
-### Tool Events
-- `tool_call_start` - Tool invocation started
-- `tool_call_end` - Tool execution completed
-- `tool_call_error` - Tool execution failed
-- `invoke_agent_start` - Agent-to-agent communication initiated
-- `invoke_agent_end` - Agent-to-agent communication completed
-
-## Configuration
-
-### Environment Variables
-- `HOST` - Server host (default: 0.0.0.0)
-- `PORT` - Server port (default: 8000)
+The system processes OpenTelemetry traces into structured communication events. For complete event definitions and schemas, see [`backend/src/agent_monitor/models/events.py`](backend/src/agent_monitor/models/events.py).
 
 ### Conversation ID Validation
 - Conversation IDs must be valid UUID4 strings (e.g., `123e4567-e89b-12d3-a456-426614174000`)
@@ -148,24 +108,4 @@ ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
   console.log('Agent event:', data);
 };
-```
-
-**Global events**:
-```javascript
-const ws = new WebSocket('ws://dashboard-backend-host:8000/ws');
-```
-
-## Project Structure
-
-```
-├── backend/                      # Backend service implementation
-│   ├── src/                      # Source code
-│   │   ├── main.py               # FastAPI application
-│   │   ├── span_preprocessor.py  # OpenTelemetry processing
-│   │   ├── connection_manager.py # WebSocket management
-│   │   └── events.py             # Event model definitions
-│   ├── Dockerfile                # Container definition
-│   └── pyproject.toml            # Python project configuration
-├── CLAUDE.md                     # AI assistant instructions
-└── README.md                     # Project documentation
 ```
