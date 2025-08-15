@@ -1,10 +1,10 @@
-default_language_version:
-  python: python3.13
+# See https://pre-commit.com for more information
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: check-yaml
+        args: [--allow-multiple-documents]
       - id: check-ast
       - id: check-case-conflict
       - id: check-json
@@ -16,26 +16,25 @@ repos:
       - id: trailing-whitespace
       - id: requirements-txt-fixer
       - id: mixed-line-ending
-      - id: no-commit-to-branch
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.7.21
+    rev: 0.8.4
     hooks:
+      # Update the uv lockfile
       - id: uv-lock
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.12.1
+  - repo: local
     hooks:
-      # Run the linter.
-      - id: ruff
-        args: [ "--no-cache", "--fix" ]
-      # Run the formatter.
-      - id: ruff-format
-        args: [ "--no-cache" ]
-
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.5
-    hooks:
-      - id: bandit
-        exclude: tests/.*\.py$
+      - id: python-lint
+        name: python-lint
+        language: system
+        entry: "uv run poe lint"
+        types_or: [ python ]
+        pass_filenames: false
+      - id: python-ruff
+        name: python-ruff
+        language: system
+        entry: "uv run poe ruff"
+        types_or: [ python ]
+        pass_filenames: false
