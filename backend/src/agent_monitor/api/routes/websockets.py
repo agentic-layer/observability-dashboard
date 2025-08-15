@@ -15,7 +15,7 @@ def validate_conversation_id(conversation_id: str) -> bool:
     if not conversation_id:
         return False
     return (
-        re.match(r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", conversation_id) is not None
+        re.match(r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$', conversation_id) is not None
     )
 
 

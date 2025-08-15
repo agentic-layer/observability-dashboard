@@ -108,8 +108,7 @@ def extract_llm_request_content(attributes: Dict[str, Any]) -> LlmRequestContent
                     new_key = sub_key.removeprefix(prefix)
                     if new_key:
                         tool_response.response[new_key] = sub_value
-            if content:
-                content.content.append(tool_response)
+            content.content.append(tool_response)
         return content if content is not None else LlmRequestContent()
     except (AttributeError, TypeError) as e:
         logger.exception(f"Error extracting LLM request content: {e}")
