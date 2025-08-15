@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: agent-communications-dashboard-backend
-  namespace: monitoring
+  name: observability-dashboard
+  namespace: observability-dashboard
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: agent-communications-dashboard-backend
+      app: observability-dashboard
   template:
     metadata:
       labels:
-        app: agent-communications-dashboard-backend
+        app: observability-dashboard
     spec:
       containers:
-        - name: agent-communications-dashboard-backend
-          image: agent-communications-dashboard-backend:latest
+        - name: observability-dashboard
+          image: observability-dashboard:latest
           ports:
           - containerPort: 8000
           readinessProbe:

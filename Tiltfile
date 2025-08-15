@@ -1,10 +1,10 @@
-# Tiltfile for agent-communications-dashboard development
+# Tiltfile for observability-dashboard development
 
 # Apply Kubernetes manifests
 k8s_yaml(kustomize('deploy/local'))
 
 # Build and deploy the agent communications dashboard backend
-dashboard_backend_name = 'agent-communications-dashboard-backend'
+dashboard_backend_name = 'observability-dashboard'
 
 docker_build(
     dashboard_backend_name,
@@ -24,5 +24,5 @@ docker_build(
 k8s_resource(
     dashboard_backend_name,
     port_forwards='10005:8000',
-    labels=['agent-communications-dashboard']
+    labels=['observability-dashboard']
 )

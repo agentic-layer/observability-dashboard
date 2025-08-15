@@ -1,4 +1,4 @@
-# Agent Communication Dashboard
+# Observability Dashboard
 
 A real-time observability service for monitoring agentic systems. Ingests OpenTelemetry traces from multi-agent applications and transforms them into structured communication events, broadcasting them via WebSocket for live monitoring.
 
@@ -17,7 +17,7 @@ The service acts as a centralized hub for understanding agent behavior, communic
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Agent System  │───▶│  Dashboard API   │───▶│  WebSocket      │
+│   Agent System  │───▶│  OTLP API        │───▶│  WebSocket      │
 │  (OTLP Traces)  │    │  (/v1/traces)    │    │  Clients        │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
                                 │
@@ -95,14 +95,14 @@ The system processes OpenTelemetry traces into structured communication events. 
 
 Configure your agents to send OpenTelemetry traces to:
 ```
-http://dashboard-backend-host:8000/v1/traces
+http://observability-dashboard:8000/v1/traces
 ```
 
 ### WebSocket Client Connection
 
 **Conversation-specific events**:
 ```javascript
-const ws = new WebSocket('ws://dashboard-backend-host:8000/ws/your-conversation-id');
+const ws = new WebSocket('ws://observability-dashboard:8000/ws/your-conversation-id');
 
 ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
