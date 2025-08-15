@@ -7,8 +7,8 @@ from .api.routes.websockets import router as websocket_router
 from .utils.log_filters import EndpointFilter
 
 app = FastAPI(
-    title="Agent Communication Dashboard Backend",
-    description="Backend service for receiving and processing tracing data and sending them out via websocket",
+    title="Observability Dashboard",
+    description="App for receiving and processing tracing data and sending them out via websocket",
 )
 
 excluded_endpoints = ["/health"]

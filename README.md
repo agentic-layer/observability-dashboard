@@ -7,7 +7,7 @@ A real-time observability service for monitoring agentic systems. Ingests OpenTe
 This dashboard service solves the observability challenge in multi-agent systems by:
 
 1. **Trace Ingestion**: Receives OpenTelemetry traces from agent frameworks via OTLP HTTP
-2. **Event Processing**: Converts raw telemetry spans into structured communication events (agent lifecycle, LLM calls, tool invocations)  
+2. **Event Processing**: Converts raw telemetry spans into structured communication events (agent lifecycle, LLM calls, tool invocations)
 3. **Real-time Streaming**: Broadcasts processed events to WebSocket clients for live dashboard updates
 4. **Conversation Filtering**: Supports both global event streams and conversation-specific filtering
 
@@ -28,11 +28,35 @@ The service acts as a centralized hub for understanding agent behavior, communic
                        └──────────────────┘
 ```
 
-The backend service processes incoming traces and broadcasts structured events to connected WebSocket clients. See [`backend/README.md`](backend/README.md) for implementation details.
+The service processes incoming traces and broadcasts structured events to connected WebSocket clients.
+
+## Implementation Details
+
+### Core Components
+
+#### FastAPI Application (`main.py`)
+Entry point that sets up the FastAPI app and includes routers. The actual endpoints are organized into separate route modules.
+
+#### API Routes (`api/routes/`)
+- **`traces.py`**: OTLP trace ingestion endpoint that receives protobuf data and processes it into events
+- **`websockets.py`**: WebSocket endpoints for global and conversation-specific event streaming
+
+#### Core Business Logic (`core/`)
+- **`span_preprocessor.py`**: Converts OpenTelemetry spans into typed events by extracting semantic attributes, mapping span kinds to event types, and preserving tracing context
+- **`connection_manager.py`**: Manages WebSocket connections with global broadcast and conversation-specific routing
+- **`state.py`**: Global application state management for connection managers and shared resources
+
+#### Data Models (`models/`)
+- **`events.py`**: Structured dataclasses for communication events (agent lifecycle, LLM calls, tool invocations)
+- **`content.py`**: Content type definitions for LLM requests/responses and tool interactions
+
+#### Utilities (`utils/`)
+- **`extractors.py`**: Attribute extraction logic for parsing OTLP span data
+- **`factories.py`**: Factory functions for creating specific event types from span data
 
 ## Prerequisites
 
-- **Python 3.13+**: Required for the backend service
+- **Python 3.13+**: Required for the app
 - **uv**: Package manager for Python projects
 - **Kubernetes cluster**: Required for Tilt development (see Local Kubernetes Setup below)
 
@@ -45,13 +69,39 @@ The backend service processes incoming traces and broadcasts structured events t
 brew bundle
 
 # Install Python dependencies
-cd backend
 uv sync
 ```
 
-### 2. Running Locally (Backend)
+### 2. Running Locally
 
-See [backend/README.md](backend/README.md) for detailed instructions on running the service locally.
+You have several options to run the service locally:
+
+#### Option 1: Direct with uv + FastAPI
+```bash
+# Development server with hot reload
+uv run fastapi dev src/agent_monitor/main.py
+
+# Production-like server
+uv run fastapi run src/agent_monitor/main.py
+```
+
+#### Option 2: Kubernetes with Tilt
+```bash
+# From project root:
+tilt up
+
+# The app will be available at http://localhost:10005
+# Tilt UI available at http://localhost:10350
+```
+
+### 3. Code Quality
+
+```bash
+uv run poe check      # Run all quality checks
+uv run poe mypy       # Type checking
+uv run poe ruff       # Linting and formatting
+uv run poe bandit     # Security analysis
+```
 
 ## Local Kubernetes Setup
 
@@ -82,7 +132,7 @@ k3d cluster create local-paal --registry-use k3d-local-paal-registry
 
 ## Event Types
 
-The system processes OpenTelemetry traces into structured communication events. For complete event definitions and schemas, see [`backend/src/agent_monitor/models/events.py`](backend/src/agent_monitor/models/events.py).
+The system processes OpenTelemetry traces into structured communication events. For complete event definitions and schemas, see [`src/agent_monitor/models/events.py`](backend/src/agent_monitor/models/events.py).
 
 ### Conversation ID Validation
 - Conversation IDs must be valid UUID4 strings (e.g., `123e4567-e89b-12d3-a456-426614174000`)

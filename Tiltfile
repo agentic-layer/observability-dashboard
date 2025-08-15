@@ -3,15 +3,14 @@
 # Apply Kubernetes manifests
 k8s_yaml(kustomize('deploy/local'))
 
-# Build and deploy the agent communications dashboard backend
-dashboard_backend_name = 'observability-dashboard'
+# Build and deploy the app
+app_name = 'observability-dashboard'
 
 docker_build(
-    dashboard_backend_name,
-    context='backend',
+    app_name,
     live_update=[
         # Sync source code changes into the container
-        sync('backend/src', '/app/src'),
+        sync('src', '/app/src'),
 
         # Re-install dependencies if the project files change
         run(
@@ -22,7 +21,7 @@ docker_build(
 )
 
 k8s_resource(
-    dashboard_backend_name,
+    app_name,
     port_forwards='10005:8000',
     labels=['observability-dashboard']
 )
