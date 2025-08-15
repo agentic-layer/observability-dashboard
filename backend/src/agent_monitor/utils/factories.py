@@ -150,6 +150,7 @@ def create_tool_call_end_event(
             try:
                 response["text"] = json.loads(response["text"])
             except json.JSONDecodeError:
+                logger.debug("Failed to parse tool response text as JSON: %s", response["text"], exc_info=True)
                 pass
     if attributes.get("tool_name") == "send_message":
         return InvokeAgentEndEvent(
