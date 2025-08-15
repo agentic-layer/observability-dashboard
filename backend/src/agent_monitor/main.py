@@ -4,7 +4,6 @@ from fastapi import FastAPI
 
 from .api.routes.traces import router as trace_router
 from .api.routes.websockets import router as websocket_router
-
 from .utils.log_filters import EndpointFilter
 
 app = FastAPI(
@@ -15,9 +14,11 @@ app = FastAPI(
 excluded_endpoints = ["/health"]
 logging.getLogger("uvicorn.access").addFilter(EndpointFilter(excluded_endpoints))
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
 
 logger = logging.getLogger(__name__)
 

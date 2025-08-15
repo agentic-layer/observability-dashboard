@@ -84,13 +84,11 @@ def parse_llm_content_key(key: str) -> Optional[tuple[str, str]]:
 def extract_llm_request_content(attributes: Dict[str, Any]) -> LlmRequestContent:
     """Extract LLM request content from attributes."""
     try:
-        content = None
+        content = LlmRequestContent()
         tool_responses = {}  # Store ToolResponse objects by number
         for key, value in attributes.items():
             if not key.startswith("llm_request.content."):
                 continue
-            if content is None:
-                content = LlmRequestContent()
             if _PATTERN_TEXT_LLM_REQUEST.fullmatch(key):
                 content.content.append(TextContent(text=value, thought=False))
                 continue
@@ -109,7 +107,7 @@ def extract_llm_request_content(attributes: Dict[str, Any]) -> LlmRequestContent
                     if new_key:
                         tool_response.response[new_key] = sub_value
             content.content.append(tool_response)
-        return content if content is not None else LlmRequestContent()
+        return content
     except (AttributeError, TypeError) as e:
         logger.exception(f"Error extracting LLM request content: {e}")
         return LlmRequestContent()
