@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  check:
+  check-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,7 +30,29 @@ jobs:
       - name: Run checks
         run: uv run poe check
 
-  build-images:
+  check-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v5'
+
+      - name: Setup Node.js
+        uses: 'actions/setup-node@v4'
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Frontend
+        run: npm run build
+
+  build-image:
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -43,4 +65,4 @@ jobs:
 
       - name: 'Docker Build'
         run: |
-          docker build .
+          make docker-build
