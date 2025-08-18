@@ -70,22 +70,47 @@ brew bundle
 
 # Install Python dependencies
 uv sync
+
+# Install frontend dependencies
+cd frontend && npm install && cd ..
 ```
 
 ### 2. Running Locally
 
-You have several options to run the service locally:
+#### Option 1: Development Mode 
 
-#### Option 1: Direct with uv + FastAPI
+Run backend and frontend separately for hot reload:
+
 ```bash
-# Development server with hot reload
+# Terminal 1: Start the FastAPI backend
 uv run fastapi dev src/agent_monitor/main.py
 
-# Production-like server
-uv run fastapi run src/agent_monitor/main.py
+# Terminal 2: Start the React frontend with proxy
+cd frontend && npm run dev
 ```
 
-#### Option 2: Kubernetes with Tilt
+The application will be available at:
+- **Frontend UI**: http://localhost:3000/ (with hot reload)
+- **Backend API**: http://localhost:8000/ (API calls proxied from frontend)
+- **API Documentation**: http://localhost:8000/docs
+
+#### Option 2: Production Mode (Single container)
+
+Build frontend and serve everything from FastAPI:
+
+```bash
+# Build the frontend
+cd frontend && npm run build && cd ..
+
+# Start the integrated server
+uv run fastapi dev src/agent_monitor/main.py
+```
+
+The application will be available at:
+- **Frontend UI**: http://localhost:8000/
+- **API Documentation**: http://localhost:8000/docs
+
+#### Option 3: Kubernetes with Tilt
 ```bash
 # From project root:
 tilt up
