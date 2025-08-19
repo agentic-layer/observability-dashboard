@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: observability-dashboard
-          image: observability-dashboard:latest
+          image: observability-dashboard:0.1.0-4-g78d5c1c
           ports:
           - containerPort: 8000
           readinessProbe:
