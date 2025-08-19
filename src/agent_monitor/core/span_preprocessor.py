@@ -116,8 +116,8 @@ def _process_single_span(span: trace_pb2.Span) -> Optional[CommunicationEvent]:
     attributes = _extract_span_attributes(span)
 
     # Check if span has observability flag
-    if not attributes.get("agent_communication_dashboard", False):
-        logger.debug(f"Skipping span '{span.name}': missing agent_communication_dashboard flag")
+    if not attributes.get("observability_dashboard", False):
+        logger.debug(f"Skipping span '{span.name}': missing observability_dashboard flag")
         return None
 
     # Extract required attributes

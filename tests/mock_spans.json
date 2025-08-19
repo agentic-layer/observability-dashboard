@@ -1,9 +1,9 @@
 [
   {
-    "name": "before_agent_callback_agent_communications_dashboard",
+    "name": "before_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What can you do?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -11,10 +11,10 @@
     }
   },
   {
-    "name": "before_model_callback_agent_communications_dashboard",
+    "name": "before_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What can you do?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -25,10 +25,10 @@
     }
   },
   {
-    "name": "after_model_callback_agent_communications_dashboard",
+    "name": "after_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What can you do?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -46,10 +46,10 @@
     }
   },
   {
-    "name": "after_agent_callback_agent_communications_dashboard",
+    "name": "after_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What can you do?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -57,10 +57,10 @@
     }
   },
   {
-    "name": "before_agent_callback_agent_communications_dashboard",
+    "name": "before_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -68,10 +68,10 @@
     }
   },
   {
-    "name": "before_model_callback_agent_communications_dashboard",
+    "name": "before_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -82,10 +82,10 @@
     }
   },
   {
-    "name": "after_model_callback_agent_communications_dashboard",
+    "name": "after_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -107,10 +107,10 @@
     }
   },
   {
-    "name": "before_tool_callback_agent_communications_dashboard",
+    "name": "before_tool_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -121,10 +121,10 @@
     }
   },
   {
-    "name": "before_agent_callback_agent_communications_dashboard",
+    "name": "before_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "weather-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get weather for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -132,10 +132,10 @@
     }
   },
   {
-    "name": "before_model_callback_agent_communications_dashboard",
+    "name": "before_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "weather-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get weather for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -146,10 +146,10 @@
     }
   },
   {
-    "name": "after_model_callback_agent_communications_dashboard",
+    "name": "after_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "weather-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get weather for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -166,10 +166,10 @@
     }
   },
   {
-    "name": "before_tool_callback_agent_communications_dashboard",
+    "name": "before_tool_callback_observability_dashboard",
     "attributes": {
       "agent_name": "weather-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get weather for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -179,10 +179,10 @@
     }
   },
   {
-    "name": "after_tool_callback_agent_communications_dashboard",
+    "name": "after_tool_callback_observability_dashboard",
     "attributes": {
       "agent_name": "weather-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get weather for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -195,10 +195,10 @@
     }
   },
   {
-    "name": "before_model_callback_agent_communications_dashboard",
+    "name": "before_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "weather-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get weather for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -212,10 +212,10 @@
     }
   },
   {
-    "name": "after_model_callback_agent_communications_dashboard",
+    "name": "after_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "weather-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get weather for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -231,10 +231,10 @@
     }
   },
   {
-    "name": "before_agent_callback_agent_communications_dashboard",
+    "name": "before_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What can you do?",
       "user_content.role": "user",
       "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
@@ -242,10 +242,10 @@
     }
   },
   {
-    "name": "after_agent_callback_agent_communications_dashboard",
+    "name": "after_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "weather-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get weather for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -253,10 +253,10 @@
     }
   },
   {
-    "name": "after_tool_callback_agent_communications_dashboard",
+    "name": "after_tool_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -269,10 +269,10 @@
     }
   },
   {
-    "name": "before_tool_callback_agent_communications_dashboard",
+    "name": "before_tool_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -283,10 +283,10 @@
     }
   },
   {
-    "name": "before_model_callback_agent_communications_dashboard",
+    "name": "before_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What can you do?",
       "user_content.role": "user",
       "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
@@ -297,10 +297,10 @@
     }
   },
   {
-    "name": "before_agent_callback_agent_communications_dashboard",
+    "name": "before_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "time-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get time for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -308,10 +308,10 @@
     }
   },
   {
-    "name": "before_model_callback_agent_communications_dashboard",
+    "name": "before_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "time-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get time for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -322,10 +322,10 @@
     }
   },
   {
-    "name": "after_model_callback_agent_communications_dashboard",
+    "name": "after_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "time-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get time for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -342,10 +342,10 @@
     }
   },
   {
-    "name": "before_tool_callback_agent_communications_dashboard",
+    "name": "before_tool_callback_observability_dashboard",
     "attributes": {
       "agent_name": "time-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get time for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -355,10 +355,10 @@
     }
   },
   {
-    "name": "after_tool_callback_agent_communications_dashboard",
+    "name": "after_tool_callback_observability_dashboard",
     "attributes": {
       "agent_name": "time-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get time for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -371,10 +371,10 @@
     }
   },
   {
-    "name": "before_model_callback_agent_communications_dashboard",
+    "name": "before_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "time-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get time for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -388,10 +388,10 @@
     }
   },
   {
-    "name": "after_model_callback_agent_communications_dashboard",
+    "name": "after_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "time-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get time for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -407,10 +407,10 @@
     }
   },
   {
-    "name": "after_agent_callback_agent_communications_dashboard",
+    "name": "after_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "time-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "Get time for New York City",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -418,10 +418,10 @@
     }
   },
   {
-    "name": "after_model_callback_agent_communications_dashboard",
+    "name": "after_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What can you do?",
       "user_content.role": "user",
       "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
@@ -439,10 +439,10 @@
     }
   },
   {
-    "name": "after_tool_callback_agent_communications_dashboard",
+    "name": "after_tool_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -455,10 +455,10 @@
     }
   },
   {
-    "name": "before_model_callback_agent_communications_dashboard",
+    "name": "before_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -471,10 +471,10 @@
     }
   },
   {
-    "name": "after_model_callback_agent_communications_dashboard",
+    "name": "after_model_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -489,10 +489,10 @@
     }
   },
   {
-    "name": "after_agent_callback_agent_communications_dashboard",
+    "name": "after_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What is the weather and time in New York City?",
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
@@ -500,10 +500,10 @@
     }
   },
   {
-    "name": "after_agent_callback_agent_communications_dashboard",
+    "name": "after_agent_callback_observability_dashboard",
     "attributes": {
       "agent_name": "host-agent",
-      "agent_communication_dashboard": true,
+      "observability_dashboard": true,
       "user_content.parts.0.text": "What can you do?",
       "user_content.role": "user",
       "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
