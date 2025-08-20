@@ -77,7 +77,7 @@ cd frontend && npm install && cd ..
 
 ### 2. Running Locally
 
-#### Option 1: Development Mode 
+#### Option 1: Development Mode
 
 Run backend and frontend separately for hot reload:
 
