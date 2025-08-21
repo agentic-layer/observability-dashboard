@@ -20,9 +20,7 @@ The primary goal is to solve the observability challenge in agentic systems by p
 - [How It Works](#how-it-works)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
-- [Configuration](#configuration)
 - [End-to-End (E2E) Testing](#end-to-end-e2e-testing)
-- [Testing Tools and Their Configuration](#testing-tools-and-their-configuration)
 - [API Reference and Integration](#api-reference-and-integration)
 - [Contributing](#contributing)
 
@@ -44,15 +42,14 @@ The service acts as a pipeline, processing telemetry data and making it availabl
 
 To build, run, and contribute to this project, you'll need the following tools installed.
 
-| Tool | Version | Notes |
-| :--- | :--- | :--- |
-| **Python** | `>= 3.13` | The core programming language. |
-| **uv** | `latest` | A fast Python package installer and virtual environment manager. |
-| **Docker** | `>= 20.10+` | For containerized deployment. |
-| **pre-commit**| `latest` | Manages pre-commit hooks. Installed via `brew bundle`. |
-| **go-task** | `latest` | A modern task runner/build tool. Installed via `brew bundle`. |
-| **tilt** | `latest` | For local multi-service Kubernetes development. Installed via `brew bundle`.|
-| **Kubernetes**| `any` | Required for local development with Tilt. |
+| Tool | Notes                                                                       |
+| :--- |:----------------------------------------------------------------------------|
+| **Python** | The core programming language.                                              |
+| **uv** | A fast Python package installer and virtual environment manager.            |
+| **Docker** | For containerized deployment.                                               |
+| **pre-commit**| Manages pre-commit hooks. Installed via `brew bundle`.                      |
+| **tilt** | For local multi-service Kubernetes development. Installed via `brew bundle`.|
+| **Kubernetes**| Required for local development with Tilt.                                   |
 
 -----
 
@@ -60,28 +57,19 @@ To build, run, and contribute to this project, you'll need the following tools i
 
 Follow these steps to get the application running on your local machine.
 
-### 1. Clone the Repository
-
-First, clone the project from GitHub:
-
-```bash
-git clone <repository-url>
-cd <repository-directory>
-````
-
-### 2\. Install Dependencies
+### 1\. Install Dependencies
 
 Install system-level and Python dependencies.
 
 ```bash
-# Install system dependencies (pre-commit, go-task, tilt) using Homebrew
+# Install system dependencies using Homebrew
 brew bundle
 
 # Install Python packages using uv
 uv sync
 ```
 
-### 3\. Run the Application
+### 2\. Run the Application
 
 You can run the service directly with `uv` or in a Kubernetes cluster using `tilt`.
 
@@ -99,9 +87,9 @@ uv run fastapi run src/agent_monitor/main.py
 ```
 Once running, you can access the following endpoints:
 
-  - **API Server**: `http://localhost:8000`
-  - **Health Check**: `http://localhost:8000/health`
-  - **API Docs (Swagger)**: `http://localhost:8000/docs`
+  - **API Server**: http://localhost:8000
+  - **Health Check**: http://localhost:8000/health
+  - **API Docs (Swagger)**: http://localhost:8000/docs
 
 **Option B: With Kubernetes with Tilt**
 
@@ -111,22 +99,8 @@ This method is ideal for simulating a production environment.
 # Ensure your local Kubernetes cluster is running, then start tilt
 tilt up
 ```
-The application will be available at `http://localhost:10005`, with the Tilt UI at `http://localhost:10350`.
+The application will be available at http://localhost:10005, with the Tilt UI at http://localhost:10350.
 
-
------
-
-## Configuration
-
-Current configurations are managed within the source files.
-
-Key configuration points include:
-
-  * **Server Host/Port**: Defined in the FastAPI application startup logic in `src/agent_monitor/main.py`.
-  * **Logging**: Configured in `src/agent_monitor/main.py`, with health check endpoints excluded from access logs.
-  * **OTLP Span Processing**: Business logic is located in `src/agent_monitor/core/span_preprocessor.py`.
-
------
 
 ## End-to-End (E2E) Testing
 
@@ -159,18 +133,6 @@ uv run pytest --cov=src/agent_monitor
 ```
 
 The integration tests validate the complete workflow, from OTLP trace ingestion to WebSocket event broadcasting.
-
------
-
-## Testing Tools and Their Configuration
-
-
-  * **Testing Framework**: **pytest** is used as the primary testing framework.
-  * **API Testing**: FastAPI's `TestClient` is used for synchronous testing of asynchronous API endpoints and WebSocket connections.
-  * **Mocking**: Test scenarios are driven by mock OpenTelemetry span data to simulate realistic agent interactions.
-
-
-Tool configurations are centralized in `pyproject.toml`. The test execution commands are defined as tasks using `poe-the-poet`.
 
 -----
 
@@ -216,7 +178,7 @@ The system processes OpenTelemetry traces into structured communication events. 
 
 ## Contributing
 
-We welcome contributions\! Please follow these guidelines to ensure a smooth development process.
+We welcome contributions\! Please follow these guidelines to ensure a smooth development process. Please read the [Contributing Guide](https://github.com/agentic-layer/.github?tab=contributing-ov-file) for more details.
 
 ### One-Time Setup
 
@@ -225,14 +187,6 @@ We welcome contributions\! Please follow these guidelines to ensure a smooth dev
 ```bash
 pre-commit install
 ```
-
-### Development Workflow
-
-1.  **Fork** the repository and create your branch from `main`.
-2.  **Create a feature branch**: `git checkout -b feature/your-awesome-feature`.
-3.  Make your changes, adhering to the project's code style.
-4.  **Run all quality checks** locally before committing: `uv run poe check`.
-5.  Submit a **Pull Request** with a clear description of your changes.
 
 ### Code Quality
 
