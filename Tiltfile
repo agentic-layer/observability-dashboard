@@ -24,5 +24,5 @@ docker_build(
 k8s_resource(
     app_name,
     port_forwards='10005:8000',
-    labels=['observability-dashboard']
+    labels=[app_name],
 )

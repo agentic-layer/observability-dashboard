@@ -449,6 +449,7 @@ dev = [
     { name = "poethepoet" },
     { name = "pytest" },
     { name = "ruff" },
+    { name = "types-protobuf" },
 ]
 
 [package.metadata]
@@ -466,6 +467,7 @@ dev = [
     { name = "poethepoet", specifier = ">=0.31.1" },
     { name = "pytest", specifier = ">=8.1.1" },
     { name = "ruff", specifier = ">=0.11.2" },
+    { name = "types-protobuf", specifier = ">=6.30.2.20250822" },
 ]
 
 [[package]]
@@ -910,6 +912,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c5/8c/7d682431efca5fd290017663ea4588bf6f2c6aad085c7f108c5dbc316e70/typer-0.16.0.tar.gz", hash = "sha256:af377ffaee1dbe37ae9440cb4e8f11686ea5ce4e9bae01b84ae7c63b87f1dd3b", size = 102625, upload-time = "2025-05-26T14:30:31.824Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/76/42/3efaf858001d2c2913de7f354563e3a3a2f0decae3efe98427125a8f441e/typer-0.16.0-py3-none-any.whl", hash = "sha256:1f79bed11d4d02d4310e3c1b7ba594183bcedb0ac73b27a9e5f28f6fb5b98855", size = 46317, upload-time = "2025-05-26T14:30:30.523Z" },
+]
+
+[[package]]
+name = "types-protobuf"
+version = "6.30.2.20250822"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/61/68/0c7144be5c6dc16538e79458839fc914ea494481c7e64566de4ecc0c3682/types_protobuf-6.30.2.20250822.tar.gz", hash = "sha256:faacbbe87bd8cba4472361c0bd86f49296bd36f7761e25d8ada4f64767c1bde9", size = 62379, upload-time = "2025-08-22T03:01:56.572Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/52/64/b926a6355993f712d7828772e42b9ae942f2d306d25072329805c374e729/types_protobuf-6.30.2.20250822-py3-none-any.whl", hash = "sha256:5584c39f7e36104b5f8bdfd31815fa1d5b7b3455a79ddddc097b62320f4b1841", size = 76523, upload-time = "2025-08-22T03:01:55.157Z" },
 ]
 
 [[package]]

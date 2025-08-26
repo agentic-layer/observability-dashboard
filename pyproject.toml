@@ -24,7 +24,8 @@ dev = [
     "ruff>=0.11.2",
     "pytest>=8.1.1",
     "bandit[toml]>=1.7.8",
-    "import-linter>=2.0"
+    "import-linter>=2.0",
+    "types-protobuf>=6.30.2.20250822",
 ]
 
 [tool.poe.tasks]
@@ -57,7 +58,7 @@ line-length = 120
 extend-select = ["Q", "N", "I001", "PT", "TID251", "DTZ"]
 
 [tool.bandit]
-exclude_dirs = [".cache", ".venv"]
+exclude_dirs = [".cache", ".venv", "frontend"]
 skips = [
     "B104", # hardcoded_bind_all_interfaces: Accept this for now.
 ]

@@ -1,7 +1,10 @@
+import gzip
 import logging
 from typing import Dict
 
 from fastapi import APIRouter, Request, Response, status
+from google.protobuf import json_format
+from google.protobuf.message import DecodeError
 from opentelemetry.proto.collector.trace.v1 import trace_service_pb2
 
 from ...core.connection_manager import ConnectionManager
@@ -32,27 +35,53 @@ async def distribute_events(
 async def receive_traces(request: Request):
     """
     OTLP/HTTP endpoint for receiving trace data.
-    Accepts protobuf-encoded trace data from OpenTelemetry collectors/exporters.
+    Accepts both protobuf-encoded and JSON trace data from OpenTelemetry collectors/exporters.
     """
     from ...core.state import conversation_managers, global_manager
 
-    try:
-        body = await request.body()
-        export_request = trace_service_pb2.ExportTraceServiceRequest()
-        export_request.ParseFromString(body)
-        events = preprocess_spans(export_request)
+    body = await request.body()
+    content_type = request.headers.get("content-type", "").lower()
+    content_encoding = request.headers.get("content-encoding", "").lower()
 
-        if events:
-            logger.debug(f"Created {len(events)} communication events")
-            await distribute_events(events, conversation_managers, global_manager)
-        else:
-            logger.debug("No relevant communication events found")
+    # Decompress if gzip encoded
+    if "gzip" in content_encoding:
+        try:
+            body = gzip.decompress(body)
+        except Exception as e:
+            logger.error(f"Failed to decompress gzip data: {e}")
+            return Response(content="Invalid gzip data", status_code=status.HTTP_400_BAD_REQUEST)
 
-        response = trace_service_pb2.ExportTraceServiceResponse()
+    export_request = trace_service_pb2.ExportTraceServiceRequest()
+
+    # Parse based on content type
+    if "application/json" in content_type:
+        json_format.Parse(body.decode("utf-8"), export_request)
+    elif "application/x-protobuf" in content_type:
+        try:
+            export_request.ParseFromString(body)
+        except DecodeError:
+            logger.exception("Failed to parse protobuf data")
+            return Response(content="Invalid protobuf data", status_code=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(
+            content="Unsupported Content-Type. Use application/json or application/x-protobuf.",
+            status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+        )
+
+    events = preprocess_spans(export_request)
+
+    if events:
+        logger.debug(f"Created {len(events)} communication events")
+        await distribute_events(events, conversation_managers, global_manager)
+    else:
+        logger.debug("No relevant communication events found")
+
+    response = trace_service_pb2.ExportTraceServiceResponse()
+    if "application/json" in content_type:
+        return Response(
+            content=json_format.MessageToJson(response), media_type="application/json", status_code=status.HTTP_200_OK
+        )
+    else:
         return Response(
             content=response.SerializeToString(), media_type="application/x-protobuf", status_code=status.HTTP_200_OK
         )
-
-    except Exception as e:
-        logger.exception(f"Error processing traces: {e}")
-        return Response(status_code=status.HTTP_400_BAD_REQUEST, content=f"Error processing traces: {str(e)}")
