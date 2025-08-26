@@ -1,4 +1,5 @@
 import logging
+import os
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -6,6 +7,12 @@ from fastapi.staticfiles import StaticFiles
 from .api.routes.traces import router as trace_router
 from .api.routes.websockets import router as websocket_router
 from .utils.log_filters import EndpointFilter
+
+logging.basicConfig(
+    level=os.environ.get("LOGLEVEL", "INFO").upper(),
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 app = FastAPI(
     title="Observability Dashboard",
@@ -20,8 +27,6 @@ logging.getLogger("uvicorn.access").addFilter(EndpointFilter(excluded_endpoints)
 async def health_check():
     return {"status": "healthy"}
 
-
-logger = logging.getLogger(__name__)
 
 # Include the API routers first (before static file mounting)
 app.include_router(trace_router)
