@@ -187,6 +187,10 @@ We welcome contributions\! Please follow these guidelines to ensure a smooth dev
 ```bash
 pre-commit install
 ```
+### Documentation
+Documentation is located in the [`/docs`](/docs) directory.
+
+We use the **[Diátaxis framework](https://diataxis.fr/)** for structure and **Antora** to build the site. Please adhere to these conventions when making updates.
 
 ### Code Quality
 
