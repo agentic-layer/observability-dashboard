@@ -8,8 +8,12 @@ When to write one: Answering a specific question like "How do I add a custom too
 Think: A recipe to solve one problem.
 ////
 
+////
+Setup example:
+
 :repo-name: agentic-layer/observability-dashboard
 
 == Guide 1 ({repo-name})
 
-Todo
+TBD
+////
