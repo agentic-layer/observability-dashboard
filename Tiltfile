@@ -12,6 +12,8 @@ docker_build(
     live_update=[
         # Sync backend source code changes
         sync('app', '/app/app'),
+        sync('pyproject.toml', '/app/pyproject.toml'),
+        sync('uv.lock', '/app/uv.lock'),
 
         # Re-install backend dependencies if project files change
         run(
@@ -19,6 +21,7 @@ docker_build(
             trigger=['pyproject.toml', 'uv.lock']
         )
     ],
+    entrypoint=["uv", "run", "fastapi", "run", "--reload"],
 )
 
 k8s_resource(
