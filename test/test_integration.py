@@ -4,67 +4,70 @@ import json
 import signal
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Sequence
 
 import pytest
 from fastapi.testclient import TestClient
 from opentelemetry import trace
 from opentelemetry.proto.collector.trace.v1 import trace_service_pb2
 from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import SpanExporter, SpanExportResult
+from starlette.testclient import WebSocketTestSession
 from starlette.websockets import WebSocketDisconnect
 
 from app.main import app
 
 
 @pytest.fixture
-def client():
+def client() -> TestClient:
     """Create test client."""
     return TestClient(app)
 
 
 @pytest.fixture
-def tracer_provider(client):
+def tracer_provider(client: TestClient) -> TracerProvider:
     """Set up OpenTelemetry tracing that sends to the test client."""
     from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 
     provider = TracerProvider()
 
-    class TestClientExporter:
-        def export(self, spans):
+    class TestClientExporter(SpanExporter):
+        def export(self, spans: Sequence[Any]) -> SpanExportResult:
             if spans:
                 request = trace_service_pb2.ExportTraceServiceRequest()
                 resource_spans = request.resource_spans.add()
                 scope_spans = resource_spans.scope_spans.add()
 
                 for span in spans:
-                    if span.attributes.get("conversation_id"):
+                    if span.attributes and span.attributes.get("conversation_id"):
                         otlp_span = scope_spans.spans.add()
                         otlp_span.name = span.name
                         otlp_span.span_id = span.context.span_id.to_bytes(8, "big")
                         otlp_span.trace_id = span.context.trace_id.to_bytes(16, "big")
-                        otlp_span.start_time_unix_nano = span.start_time
-                        otlp_span.end_time_unix_nano = span.end_time or span.start_time
+                        otlp_span.start_time_unix_nano = span.start_time or 0
+                        otlp_span.end_time_unix_nano = span.end_time or span.start_time or 0
 
-                        for key, value in span.attributes.items():
-                            kv_pair = otlp_span.attributes.add()
-                            kv_pair.key = key
-                            if isinstance(value, str):
-                                kv_pair.value.string_value = value
-                            elif isinstance(value, bool):
-                                kv_pair.value.bool_value = value
-                            elif isinstance(value, int):
-                                kv_pair.value.int_value = value
-                            else:
-                                kv_pair.value.string_value = str(value)
+                        if span.attributes:
+                            for key, value in span.attributes.items():
+                                kv_pair = otlp_span.attributes.add()
+                                kv_pair.key = key
+                                if isinstance(value, str):
+                                    kv_pair.value.string_value = value
+                                elif isinstance(value, bool):
+                                    kv_pair.value.bool_value = value
+                                elif isinstance(value, int):
+                                    kv_pair.value.int_value = value
+                                else:
+                                    kv_pair.value.string_value = str(value)
 
                 client.post(
                     "/v1/traces",
                     content=request.SerializeToString(),
                     headers={"content-type": "application/x-protobuf"},
                 )
-            return None
+            return SpanExportResult.SUCCESS
 
-        def shutdown(self):
+        def shutdown(self) -> None:
             pass
 
     processor = SimpleSpanProcessor(TestClientExporter())
@@ -74,31 +77,33 @@ def tracer_provider(client):
 
 
 @pytest.fixture
-def mock_spans_data():
+def mock_spans_data() -> List[Dict[str, Any]]:
     """Load mock spans data from JSON file."""
     mock_file = Path(__file__).parent / "mock_spans.json"
     with open(mock_file) as f:
-        return json.load(f)
+        data: List[Dict[str, Any]] = json.load(f)
+        return data
 
 
-def timeout_handler(signum, frame):
+def timeout_handler(signum: int, frame: Any) -> None:
     """Handle timeout signal."""
     raise TimeoutError("WebSocket receive timeout")
 
 
-def receive_with_timeout(websocket):
+def receive_with_timeout(websocket: WebSocketTestSession) -> Dict[str, Any]:
     """Receive JSON from WebSocket with proper timeout using signal."""
     old_handler = signal.signal(signal.SIGALRM, timeout_handler)
     signal.alarm(1)
 
     try:
-        return websocket.receive_json()
+        data: Dict[str, Any] = websocket.receive_json()
+        return data
     finally:
         signal.alarm(0)
         signal.signal(signal.SIGALRM, old_handler)
 
 
-def create_test_spans_from_mock_data(mock_data: List[Dict[str, Any]], client: TestClient):
+def create_test_spans_from_mock_data(mock_data: List[Dict[str, Any]], client: TestClient) -> None:
     """Create OpenTelemetry spans from mock data and send them to the endpoint."""
     tracer = trace.get_tracer(__name__)
 
@@ -110,7 +115,9 @@ def create_test_spans_from_mock_data(mock_data: List[Dict[str, Any]], client: Te
                 span.set_attribute(key, value)
 
 
-def test_full_system_integration(client, mock_spans_data, tracer_provider):
+def test_full_system_integration(
+    client: TestClient, mock_spans_data: List[Dict[str, Any]], tracer_provider: TracerProvider
+) -> None:
     """Test complete system: receive spans -> process -> send to WebSockets."""
     conversation_1 = None
     for span_data in mock_spans_data:
@@ -156,7 +163,9 @@ def test_full_system_integration(client, mock_spans_data, tracer_provider):
         assert event["conversation_id"] == conversation_1
 
 
-def test_conversation_filtering(client, mock_spans_data, tracer_provider):
+def test_conversation_filtering(
+    client: TestClient, mock_spans_data: List[Dict[str, Any]], tracer_provider: TracerProvider
+) -> None:
     """Test that conversation-specific WebSocket only receives events for that conversation."""
     conversation_1 = None
     for span_data in mock_spans_data:
@@ -184,7 +193,7 @@ def test_conversation_filtering(client, mock_spans_data, tracer_provider):
         assert event.get("conversation_id") == conversation_1
 
 
-def test_invalid_trace_data(client):
+def test_invalid_trace_data(client: TestClient) -> None:
     """Test handling of invalid trace data."""
     response = client.post(
         "/v1/traces", content=b"invalid protobuf data", headers={"content-type": "application/x-protobuf"}
@@ -192,7 +201,7 @@ def test_invalid_trace_data(client):
     assert response.status_code == 400
 
 
-def test_empty_trace_data(client):
+def test_empty_trace_data(client: TestClient) -> None:
     """Test handling of empty trace data."""
     # Send empty content - the endpoint should handle gracefully
     response = client.post("/v1/traces", content=b"", headers={"content-type": "application/x-protobuf"})

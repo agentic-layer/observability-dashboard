@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Dict
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -24,7 +25,7 @@ logging.getLogger("uvicorn.access").addFilter(EndpointFilter(excluded_endpoints)
 
 
 @app.get("/health")
-async def health_check():
+async def health_check() -> Dict[str, str]:
     return {"status": "healthy"}
 
 

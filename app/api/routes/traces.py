@@ -1,6 +1,6 @@
 import gzip
 import logging
-from typing import Dict
+from typing import Dict, List
 
 from fastapi import APIRouter, Request, Response, status
 from google.protobuf import json_format
@@ -9,14 +9,17 @@ from opentelemetry.proto.collector.trace.v1 import trace_service_pb2
 
 from ...core.connection_manager import ConnectionManager
 from ...core.span_preprocessor import preprocess_spans
+from ...models.events import CommunicationEvent
 
 router = APIRouter(tags=["traces"])
 logger = logging.getLogger(__name__)
 
 
 async def distribute_events(
-    events, conversation_managers: Dict[str, ConnectionManager], global_manager: ConnectionManager
-):
+    events: List[CommunicationEvent],
+    conversation_managers: Dict[str, ConnectionManager],
+    global_manager: ConnectionManager,
+) -> None:
     """Distribute events to both conversation-specific and global WebSocket connections."""
     for event in events:
         event_data = event.to_dict()
@@ -32,7 +35,7 @@ async def distribute_events(
 
 
 @router.post("/v1/traces")
-async def receive_traces(request: Request):
+async def receive_traces(request: Request) -> Response:
     """
     OTLP/HTTP endpoint for receiving trace data.
     Accepts both protobuf-encoded and JSON trace data from OpenTelemetry collectors/exporters.

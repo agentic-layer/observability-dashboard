@@ -34,7 +34,7 @@ _PATTERN_FUNCTION_CALL_LLM_RESPONSE = re.compile(r"llm_response\.content\.parts\
 
 def extract_invoked_agent(attributes: Dict[str, Any]) -> str:
     """Extract invoked agent from tool call attributes."""
-    return attributes.get("args.agent_name", "")
+    return str(attributes.get("args.agent_name", ""))
 
 
 def extract_tool_response(attributes: Dict[str, Any]) -> Dict[str, Any]:

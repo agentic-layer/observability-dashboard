@@ -20,7 +20,7 @@ def validate_conversation_id(conversation_id: str) -> bool:
 
 
 @router.websocket("/ws/{conversation_id}")
-async def websocket_endpoint(websocket: WebSocket, conversation_id: str):
+async def websocket_endpoint(websocket: WebSocket, conversation_id: str) -> None:
     """
     WebSocket endpoint for subscribing to trace updates for a specific conversation.
     Clients can connect and receive JSON data related to their conversation_id.
@@ -72,7 +72,7 @@ async def websocket_endpoint(websocket: WebSocket, conversation_id: str):
 
 
 @router.websocket("/ws")
-async def websocket_global_endpoint(websocket: WebSocket):
+async def websocket_global_endpoint(websocket: WebSocket) -> None:
     """
     Global WebSocket endpoint for subscribing to all trace updates across all conversations.
     Clients can connect and receive JSON data for all events regardless of conversation_id.
