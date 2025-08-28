@@ -36,7 +36,7 @@ check: build test
 	uv run ruff check
 	uv run lint-imports
 	uv run bandit -c pyproject.toml -r .
-	uv export --frozen --no-hashes | pip-audit -r /dev/stdin
+	uv export --frozen --no-hashes | uv run pip-audit -r /dev/stdin
 
 
 .PHONY: check-fix
