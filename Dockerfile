@@ -21,7 +21,7 @@ COPY uv.lock pyproject.toml ./
 RUN --mount=type=cache,target=/root/.cache/uv uv sync --frozen
 
 # Copy source code after dependency installation
-COPY src/ ./src/
+COPY app/ ./app/
 
 # Copy built frontend from previous stage
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
@@ -30,4 +30,4 @@ COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 EXPOSE 8000
 
 # Run FastAPI application with uv and fastapi
-CMD ["uv", "run", "fastapi", "run", "src/agent_monitor/main.py"]
+ENTRYPOINT ["uv", "run", "fastapi", "run"]

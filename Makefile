@@ -15,11 +15,11 @@ build:
 
 .PHONY: run
 run: build
-	uv run fastapi run src/agent_monitor/main.py
+	uv run fastapi run
 
 .PHONY: dev
 dev: build
-	uv run fastapi dev src/agent_monitor/main.py
+	uv run fastapi dev
 
 .PHONY: docker-build
 docker-build:

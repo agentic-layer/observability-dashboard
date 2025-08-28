@@ -79,11 +79,11 @@ This is the simplest way to get started.
 
 ```bash
 # Start a development server with hot-reloading
-uv run fastapi dev src/agent_monitor/main.py
+make dev
 ```
 ```bash
 # Or, start a production-like server
-uv run fastapi run src/agent_monitor/main.py
+make run
 ```
 Once running, you can access the following endpoints:
 
@@ -129,7 +129,7 @@ uv run pytest tests/test_integration.py -v
 ```
 ```bash
 # Run tests with coverage analysis
-uv run pytest --cov=src/agent_monitor
+uv run pytest --cov=app/agent_monitor
 ```
 
 The integration tests validate the complete workflow, from OTLP trace ingestion to WebSocket event broadcasting.
@@ -167,7 +167,7 @@ ws.onmessage = (event) => {
 ```
 ### Event Types
 
-The system processes OpenTelemetry traces into structured communication events. For complete event definitions and schemas, see [`src/agent_monitor/models/events.py`](src/agent_monitor/models/events.py).
+The system processes OpenTelemetry traces into structured communication events. For complete event definitions and schemas, see [`app/agent_monitor/models/events.py`](app/agent_monitor/models/events.py).
 
 ### Conversation ID Validation
 - Conversation IDs must be valid UUID4 strings (e.g., `123e4567-e89b-12d3-a456-426614174000`)

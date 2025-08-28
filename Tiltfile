@@ -11,7 +11,7 @@ docker_build(
     context='.',
     live_update=[
         # Sync backend source code changes
-        sync('src', '/app/src'),
+        sync('app', '/app/app'),
 
         # Re-install backend dependencies if project files change
         run(
