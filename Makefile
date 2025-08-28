@@ -15,12 +15,12 @@ build:
 
 .PHONY: run
 run: build
-	uv run fastapi run
+	uv run fastapi run --port 10005
 
 
 .PHONY: dev
 dev: build
-	uv run fastapi dev
+	uv run fastapi dev --port 10005
 
 
 .PHONY: test

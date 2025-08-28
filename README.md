@@ -87,9 +87,9 @@ make run
 ```
 Once running, you can access the following endpoints:
 
-  - **API Server**: http://localhost:8000
-  - **Health Check**: http://localhost:8000/health
-  - **API Docs (Swagger)**: http://localhost:8000/docs
+  - **API Server**: http://localhost:10005
+  - **Health Check**: http://localhost:10005/health
+  - **API Docs (Swagger)**: http://localhost:10005/docs
 
 **Option B: With Kubernetes with Tilt**
 
@@ -139,20 +139,17 @@ You can integrate your agentic applications by sending telemetry data to the ing
 
 Configure your agents to send OpenTelemetry traces to:
 ```
-http://observability-dashboard:8000/v1/traces
+http://localhost:10005/v1/traces
 ```
 
 ### WebSocket Client Connection
 
-**Conversation-specific events**:
-```javascript
-const ws = new WebSocket('ws://observability-dashboard:8000/ws/your-conversation-id');
+Events can be consumed by connecting to the WebSocket endpoint. For example with websocat:
 
-ws.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-  console.log('Agent event:', data);
-};
+```shell
+websocat ws://localhost:10005/ws
 ```
+
 ### Event Types
 
 The system processes OpenTelemetry traces into structured communication events. For complete event definitions and schemas, see [`app/models/events.py`](app/models/events.py).
