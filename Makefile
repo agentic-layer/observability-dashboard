@@ -1,10 +1,8 @@
 VERSION ?= $(shell echo "$$(git rev-parse --abbrev-ref HEAD)-$$(git rev-parse --short=7 HEAD)-$$(date +%s)")
 IMAGE_TAG_BASE ?= eu.gcr.io/agentic-layer/observability-dashboard
 IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
-GCP_LOCATION ?= europe-west3
-GCP_PROJECT_ID ?= qaware-paal
-GCP_REPOSITORY ?= agentic-layer
 PLATFORMS ?= linux/arm64,linux/amd64
+
 
 .PHONY: all
 all: build docker-build
