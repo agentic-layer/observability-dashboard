@@ -117,19 +117,7 @@ Use the following commands to execute the tests:
 
 ```bash
 # Run the full test suite once
-uv run poe test
-```
-```bash
-# Run tests in watch mode for continuous testing during development
-uv run poe test-watch
-```
-```bash
-# Run a specific test file with verbose output
-uv run pytest tests/test_integration.py -v
-```
-```bash
-# Run tests with coverage analysis
-uv run pytest --cov=app
+make test
 ```
 
 The integration tests validate the complete workflow, from OTLP trace ingestion to WebSocket event broadcasting.
@@ -196,9 +184,7 @@ We use the **[Diátaxis framework](https://diataxis.fr/)** for structure and **A
 
 We use the following tools to maintain high code quality. All are orchestrated by `pre-commit` and can be run manually.
 
-| Command | Description | Tool |
-| :--- | :--- | :--- |
-| `uv run poe ruff`| Runs the linter and formatter. | **Ruff** |
-| `uv run poe mypy`| Performs static type checking. | **Mypy** |
-| `uv run poe bandit`| Scans for common security vulnerabilities. | **Bandit**|
-| `uv run poe check`| Runs all of the above checks sequentially. | - |
+| Command             | Description                                                              |
+|:--------------------|:-------------------------------------------------------------------------|
+| `make check-fix`    | Runs the linters and formatters and attempt to fix issues automatically. |
+| `make check`        | Run all checks and tests                                                 |
