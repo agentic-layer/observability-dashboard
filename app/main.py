@@ -1,11 +1,12 @@
 import logging
 import os
 
-from agent_monitor.api.routes.traces import router as trace_router
-from agent_monitor.api.routes.websockets import router as websocket_router
-from agent_monitor.utils.log_filters import EndpointFilter
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+
+from app.api.routes.traces import router as trace_router
+from app.api.routes.websockets import router as websocket_router
+from app.utils.log_filters import EndpointFilter
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),

@@ -13,7 +13,7 @@ from opentelemetry.proto.collector.trace.v1 import trace_service_pb2
 from opentelemetry.sdk.trace import TracerProvider
 from starlette.websockets import WebSocketDisconnect
 
-from agent_monitor.main import app
+from app.main import app
 
 
 @pytest.fixture
