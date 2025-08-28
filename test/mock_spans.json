@@ -1,6 +1,6 @@
 [
   {
-    "name": "before_agent_callback_observability_dashboard",
+    "name": "before_agent_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -11,7 +11,7 @@
     }
   },
   {
-    "name": "before_model_callback_observability_dashboard",
+    "name": "before_model_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -25,7 +25,7 @@
     }
   },
   {
-    "name": "after_model_callback_observability_dashboard",
+    "name": "after_model_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -46,7 +46,7 @@
     }
   },
   {
-    "name": "after_agent_callback_observability_dashboard",
+    "name": "after_agent_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -57,7 +57,7 @@
     }
   },
   {
-    "name": "before_agent_callback_observability_dashboard",
+    "name": "before_agent_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -68,7 +68,7 @@
     }
   },
   {
-    "name": "before_model_callback_observability_dashboard",
+    "name": "before_model_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -82,7 +82,7 @@
     }
   },
   {
-    "name": "after_model_callback_observability_dashboard",
+    "name": "after_model_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -107,7 +107,7 @@
     }
   },
   {
-    "name": "before_tool_callback_observability_dashboard",
+    "name": "before_tool_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -121,7 +121,7 @@
     }
   },
   {
-    "name": "before_agent_callback_observability_dashboard",
+    "name": "before_agent_callback",
     "attributes": {
       "agent_name": "weather-agent",
       "observability_dashboard": true,
@@ -132,7 +132,7 @@
     }
   },
   {
-    "name": "before_model_callback_observability_dashboard",
+    "name": "before_model_callback",
     "attributes": {
       "agent_name": "weather-agent",
       "observability_dashboard": true,
@@ -146,7 +146,7 @@
     }
   },
   {
-    "name": "after_model_callback_observability_dashboard",
+    "name": "after_model_callback",
     "attributes": {
       "agent_name": "weather-agent",
       "observability_dashboard": true,
@@ -166,7 +166,7 @@
     }
   },
   {
-    "name": "before_tool_callback_observability_dashboard",
+    "name": "before_tool_callback",
     "attributes": {
       "agent_name": "weather-agent",
       "observability_dashboard": true,
@@ -179,7 +179,7 @@
     }
   },
   {
-    "name": "after_tool_callback_observability_dashboard",
+    "name": "after_tool_callback",
     "attributes": {
       "agent_name": "weather-agent",
       "observability_dashboard": true,
@@ -195,7 +195,7 @@
     }
   },
   {
-    "name": "before_model_callback_observability_dashboard",
+    "name": "before_model_callback",
     "attributes": {
       "agent_name": "weather-agent",
       "observability_dashboard": true,
@@ -212,7 +212,7 @@
     }
   },
   {
-    "name": "after_model_callback_observability_dashboard",
+    "name": "after_model_callback",
     "attributes": {
       "agent_name": "weather-agent",
       "observability_dashboard": true,
@@ -231,7 +231,7 @@
     }
   },
   {
-    "name": "before_agent_callback_observability_dashboard",
+    "name": "before_agent_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -242,7 +242,7 @@
     }
   },
   {
-    "name": "after_agent_callback_observability_dashboard",
+    "name": "after_agent_callback",
     "attributes": {
       "agent_name": "weather-agent",
       "observability_dashboard": true,
@@ -253,7 +253,7 @@
     }
   },
   {
-    "name": "after_tool_callback_observability_dashboard",
+    "name": "after_tool_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -269,7 +269,7 @@
     }
   },
   {
-    "name": "before_tool_callback_observability_dashboard",
+    "name": "before_tool_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -283,7 +283,7 @@
     }
   },
   {
-    "name": "before_model_callback_observability_dashboard",
+    "name": "before_model_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -297,7 +297,7 @@
     }
   },
   {
-    "name": "before_agent_callback_observability_dashboard",
+    "name": "before_agent_callback",
     "attributes": {
       "agent_name": "time-agent",
       "observability_dashboard": true,
@@ -308,7 +308,7 @@
     }
   },
   {
-    "name": "before_model_callback_observability_dashboard",
+    "name": "before_model_callback",
     "attributes": {
       "agent_name": "time-agent",
       "observability_dashboard": true,
@@ -322,7 +322,7 @@
     }
   },
   {
-    "name": "after_model_callback_observability_dashboard",
+    "name": "after_model_callback",
     "attributes": {
       "agent_name": "time-agent",
       "observability_dashboard": true,
@@ -342,7 +342,7 @@
     }
   },
   {
-    "name": "before_tool_callback_observability_dashboard",
+    "name": "before_tool_callback",
     "attributes": {
       "agent_name": "time-agent",
       "observability_dashboard": true,
@@ -355,7 +355,7 @@
     }
   },
   {
-    "name": "after_tool_callback_observability_dashboard",
+    "name": "after_tool_callback",
     "attributes": {
       "agent_name": "time-agent",
       "observability_dashboard": true,
@@ -371,7 +371,7 @@
     }
   },
   {
-    "name": "before_model_callback_observability_dashboard",
+    "name": "before_model_callback",
     "attributes": {
       "agent_name": "time-agent",
       "observability_dashboard": true,
@@ -388,7 +388,7 @@
     }
   },
   {
-    "name": "after_model_callback_observability_dashboard",
+    "name": "after_model_callback",
     "attributes": {
       "agent_name": "time-agent",
       "observability_dashboard": true,
@@ -407,7 +407,7 @@
     }
   },
   {
-    "name": "after_agent_callback_observability_dashboard",
+    "name": "after_agent_callback",
     "attributes": {
       "agent_name": "time-agent",
       "observability_dashboard": true,
@@ -418,7 +418,7 @@
     }
   },
   {
-    "name": "after_model_callback_observability_dashboard",
+    "name": "after_model_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -439,7 +439,7 @@
     }
   },
   {
-    "name": "after_tool_callback_observability_dashboard",
+    "name": "after_tool_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -455,7 +455,7 @@
     }
   },
   {
-    "name": "before_model_callback_observability_dashboard",
+    "name": "before_model_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -471,7 +471,7 @@
     }
   },
   {
-    "name": "after_model_callback_observability_dashboard",
+    "name": "after_model_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -489,7 +489,7 @@
     }
   },
   {
-    "name": "after_agent_callback_observability_dashboard",
+    "name": "after_agent_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,
@@ -500,7 +500,7 @@
     }
   },
   {
-    "name": "after_agent_callback_observability_dashboard",
+    "name": "after_agent_callback",
     "attributes": {
       "agent_name": "host-agent",
       "observability_dashboard": true,

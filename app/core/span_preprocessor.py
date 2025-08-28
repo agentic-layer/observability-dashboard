@@ -2,8 +2,11 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Callable, Dict, List, Optional, Union
 
+from google.protobuf.internal.containers import RepeatedCompositeFieldContainer
 from opentelemetry.proto.collector.trace.v1 import trace_service_pb2
 from opentelemetry.proto.common.v1 import common_pb2
+from opentelemetry.proto.common.v1.common_pb2 import KeyValue
+from opentelemetry.proto.resource.v1.resource_pb2 import Resource
 from opentelemetry.proto.trace.v1 import trace_pb2
 
 from ..models.events import CommunicationEvent
@@ -91,14 +94,16 @@ def _create_communication_event(
     return factory_func(agent_name, conversation_id, start_time, attributes)
 
 
-def _extract_span_attributes(span: trace_pb2.Span) -> Dict[str, Union[str, int, float, bool]]:
+def _extract_attributes(
+    attributes: RepeatedCompositeFieldContainer[KeyValue],
+) -> Dict[str, Union[str, int, float, bool]]:
     """Extract all attributes from a span."""
-    attributes = {}
-    for attr in span.attributes:
+    attrs = {}
+    for attr in attributes:
         value = _extract_attribute_value(attr.value)
         if value is not None:
-            attributes[attr.key] = value
-    return attributes
+            attrs[attr.key] = value
+    return attrs
 
 
 def _convert_timestamp_to_iso(timestamp_nano: int, span_name: str) -> Optional[str]:
@@ -111,18 +116,15 @@ def _convert_timestamp_to_iso(timestamp_nano: int, span_name: str) -> Optional[s
         return None
 
 
-def _process_single_span(span: trace_pb2.Span) -> Optional[CommunicationEvent]:
+def _process_single_span(resource: Resource, span: trace_pb2.Span) -> Optional[CommunicationEvent]:
     """Process a single span and return a communication event if valid."""
-    attributes = _extract_span_attributes(span)
-
-    # Check if span has observability flag
-    if not attributes.get("observability_dashboard", False):
-        logger.debug(f"Skipping span '{span.name}': missing observability_dashboard flag")
-        return None
+    span_attributes = _extract_attributes(span.attributes)
+    resource_attributes = _extract_attributes(resource.attributes)
 
     # Extract required attributes
-    conversation_id = attributes.get("conversation_id")
-    agent_name = attributes.get("agent_name")
+    conversation_id = span_attributes.get("conversation_id")
+    # Fall back to agent_name for compatibility with older spans
+    agent_name = resource_attributes.get("service.name") or span_attributes.get("agent_name")
 
     if not conversation_id or not agent_name:
         logger.debug(
@@ -142,7 +144,9 @@ def _process_single_span(span: trace_pb2.Span) -> Optional[CommunicationEvent]:
         return None
 
     # Create communication event
-    event = _create_communication_event(event_type, str(agent_name), str(conversation_id), attributes, iso_timestamp)
+    event = _create_communication_event(
+        event_type, str(agent_name), str(conversation_id), span_attributes, iso_timestamp
+    )
 
     logger.debug(f"Created {event_type} event for agent '{agent_name}' in conversation '{conversation_id}'")
     return event
@@ -157,10 +161,10 @@ def preprocess_spans(export_request: trace_service_pb2.ExportTraceServiceRequest
     span_count = sum(len(scope.spans) for rs in export_request.resource_spans for scope in rs.scope_spans)
     logger.debug(f"Processing {span_count} spans for communication events")
 
-    for resource_spans in export_request.resource_spans:
-        for instrumentation_scope in resource_spans.scope_spans:
+    for resource_span in export_request.resource_spans:
+        for instrumentation_scope in resource_span.scope_spans:
             for span in instrumentation_scope.spans:
-                event = _process_single_span(span)
+                event = _process_single_span(resource_span.resource, span)
                 if event:
                     events.append(event)
 
