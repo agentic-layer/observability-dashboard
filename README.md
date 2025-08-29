@@ -150,6 +150,14 @@ Events can be consumed by connecting to the WebSocket endpoint. For example with
 websocat ws://localhost:10005/ws
 ```
 
+Or in the browser console (replace url with your server address):
+
+```javascript
+new WebSocket('ws://observability-dashboard:10005/ws').onmessage = (event) => {
+  console.log('Agent event:', JSON.parse(event.data));
+}
+```
+
 ### Event Types
 
 The system processes OpenTelemetry traces into structured communication events. For complete event definitions and schemas, see [`app/models/events.py`](app/models/events.py).
