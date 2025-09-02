@@ -1,4 +1,6 @@
 import React from 'react';
+import logoBoxPng from '../assets/Logo-Box-2.png';
+
 
 interface WorkflowSidebarProps {}
 
@@ -8,7 +10,7 @@ export function WorkflowSidebar({}: WorkflowSidebarProps) {
       {/* Header */}
       <div className="p-4 border-b border-sidebar-border flex items-center justify-center">
         <img 
-          src="/lovable-uploads/50ee3c48-fd20-4583-97ee-3f53bf1c0c89.png" 
+          src={logoBoxPng}
           alt="Logo" 
           className="w-8 h-8"
         />
