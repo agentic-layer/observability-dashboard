@@ -24,7 +24,7 @@ export function DataFlowEdge({
     borderRadius: 8,
   });
 
-  const isActive = (data as any)?.isActive || false;
+  const isActive = (data as any)?.running || false;
 
   return (
     <>

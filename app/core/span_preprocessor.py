@@ -119,12 +119,11 @@ def _convert_timestamp_to_iso(timestamp_nano: int, span_name: str) -> Optional[s
 def _process_single_span(resource: Resource, span: trace_pb2.Span) -> Optional[CommunicationEvent]:
     """Process a single span and return a communication event if valid."""
     span_attributes = _extract_attributes(span.attributes)
-    resource_attributes = _extract_attributes(resource.attributes)
 
     # Extract required attributes
     conversation_id = span_attributes.get("conversation_id")
     # Fall back to agent_name for compatibility with older spans
-    agent_name = resource_attributes.get("service.name") or span_attributes.get("agent_name")
+    agent_name = span_attributes.get("agent_name")
 
     if not conversation_id or not agent_name:
         logger.debug(
