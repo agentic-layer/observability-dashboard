@@ -87,7 +87,7 @@ def create_tool_call_start_event(
     """Create a ToolCallStartEvent from span attributes."""
     invocation_id = attributes.get("invocation_id", "")
     tool_call = extract_tool_call(attributes)
-    if attributes.get("tool_name") == "send_message":
+    if attributes.get("tool_name") in ["transfer_to_agent", "send_message"]:
         return InvokeAgentStartEvent(
             acting_agent=acting_agent,
             conversation_id=conversation_id,
@@ -152,7 +152,7 @@ def create_tool_call_end_event(
             except json.JSONDecodeError:
                 logger.debug("Failed to parse tool response text as JSON: %s", response["text"], exc_info=True)
                 pass
-    if attributes.get("tool_name") == "send_message":
+    if attributes.get("tool_name") in ["transfer_to_agent", "send_message"]:
         return InvokeAgentEndEvent(
             acting_agent=acting_agent,
             conversation_id=conversation_id,
