@@ -1,3 +1,0 @@
-= Observability Dashboard for Agentic Systems
-
-// TBD
