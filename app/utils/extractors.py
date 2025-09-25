@@ -26,8 +26,8 @@ SUPPORTED_CONTENT_PARTS = {
 }
 
 # Compiled regex patterns for better performance
-_PATTERN_TEXT_LLM_REQUEST = re.compile(r"llm_request\.content\.parts\.\d+\.text")
-_PATTERN_FUNCTION_RESPONSE_LLM_REQUEST = re.compile(r"llm_request\.content\.parts\.(\d+)\.function_response\.name")
+_PATTERN_TEXT_LLM_REQUEST = re.compile(r"user_content\.parts\.\d+\.text")
+_PATTERN_FUNCTION_RESPONSE_LLM_REQUEST = re.compile(r"user_content\.parts\.(\d+)\.function_response\.name")
 _PATTERN_TEXT_LLM_RESPONSE = re.compile(r"llm_response\.content\.parts\.\d+\.text")
 _PATTERN_FUNCTION_CALL_LLM_RESPONSE = re.compile(r"llm_response\.content\.parts\.(\d+)\.function_call\.name")
 
@@ -87,7 +87,7 @@ def extract_llm_request_content(attributes: Dict[str, Any]) -> LlmRequestContent
         content = LlmRequestContent()
         tool_responses = {}  # Store ToolResponse objects by number
         for key, value in attributes.items():
-            if not key.startswith("llm_request.content."):
+            if not key.startswith("user_content."):
                 continue
             if _PATTERN_TEXT_LLM_REQUEST.fullmatch(key):
                 content.content.append(TextContent(text=value, thought=False))

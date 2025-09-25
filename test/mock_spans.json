@@ -19,9 +19,7 @@
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
       "invocation_id": "e-00112233-4455-6677-8899-aabbccddeeff",
-      "model": "gemini-2.5-flash-lite",
-      "llm_request.content.parts.0.text": "What can you do?",
-      "llm_request.content.role": "user"
+      "model": "gemini-2.5-flash-lite"
     }
   },
   {
@@ -76,9 +74,7 @@
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
       "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
-      "model": "gemini-2.5-flash-lite",
-      "llm_request.content.parts.0.text": "What is the weather and time in New York City?",
-      "llm_request.content.role": "user"
+      "model": "gemini-2.5-flash-lite"
     }
   },
   {
@@ -140,9 +136,7 @@
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
       "invocation_id": "e-22334455-6677-8899-0011-aabbccddeeff",
-      "model": "gemini-2.5-flash-lite",
-      "llm_request.content.parts.0.text": "Get weather for New York City",
-      "llm_request.content.role": "user"
+      "model": "gemini-2.5-flash-lite"
     }
   },
   {
@@ -207,8 +201,7 @@
       "llm_request.content.parts.0.function_response.name": "get_weather_from_api",
       "llm_request.content.parts.0.function_response.response.result.content.0.type": "text",
       "llm_request.content.parts.0.function_response.response.result.content.0.text": "{\"status\":\"success\",\"data\":{\"city\":\"New York City\",\"temperature_f\":75,\"condition\":\"Partly cloudy\"}}",
-      "llm_request.content.parts.0.function_response.response.result.isError": false,
-      "llm_request.content.role": "user"
+      "llm_request.content.parts.0.function_response.response.result.isError": false
     }
   },
   {
@@ -291,9 +284,7 @@
       "user_content.role": "user",
       "conversation_id": "03347ed1-6eac-4fb9-9176-b092363289b9",
       "invocation_id": "e-33445566-7788-9900-1122-ccddeeff1122",
-      "model": "gemini-2.5-flash-lite",
-      "llm_request.content.parts.0.text": "What can you do?",
-      "llm_request.content.role": "user"
+      "model": "gemini-2.5-flash-lite"
     }
   },
   {
@@ -316,9 +307,7 @@
       "user_content.role": "user",
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
       "invocation_id": "e-33445566-7788-9900-1122-aabbccddeeff",
-      "model": "gemini-2.5-flash-lite",
-      "llm_request.content.parts.0.text": "Get time for New York City",
-      "llm_request.content.role": "user"
+      "model": "gemini-2.5-flash-lite"
     }
   },
   {
@@ -383,8 +372,7 @@
       "llm_request.content.parts.0.function_response.name": "get_time_from_api",
       "llm_request.content.parts.0.function_response.response.result.content.0.type": "text",
       "llm_request.content.parts.0.function_response.response.result.content.0.text": "{\"status\":\"success\",\"data\":{\"city\":\"New York City\",\"time\":\"10:41 AM\"}}",
-      "llm_request.content.parts.0.function_response.response.result.isError": false,
-      "llm_request.content.role": "user"
+      "llm_request.content.parts.0.function_response.response.result.isError": false
     }
   },
   {
@@ -464,10 +452,9 @@
       "conversation_id": "1d1046f4-20da-4bed-9cc3-285d32292851",
       "invocation_id": "e-11223344-5566-7788-9900-aabbccddeeff",
       "model": "gemini-2.5-flash-lite",
-      "llm_request.content.parts.0.function_response.name": "send_message",
-      "llm_request.content.parts.0.function_response.response.result.0.kind": "text",
-      "llm_request.content.parts.0.function_response.response.result.0.text": "The weather is partly cloudy with a temperature of 75°F.",
-      "llm_request.content.role": "user"
+      "user_content.parts.0.function_response.name": "send_message",
+      "user_content.parts.0.function_response.response.result.0.kind": "text",
+      "user_content.parts.0.function_response.response.result.0.text": "The weather is partly cloudy with a temperature of 75°F."
     }
   },
   {
