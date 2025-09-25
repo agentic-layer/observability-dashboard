@@ -1,5 +1,5 @@
-VERSION ?= $(shell echo "$$(git rev-parse --abbrev-ref HEAD)-$$(git rev-parse --short=7 HEAD)-$$(date +%s)")
-IMAGE_TAG_BASE ?= eu.gcr.io/agentic-layer/observability-dashboard
+VERSION ?= latest
+IMAGE_TAG_BASE ?= observability-dashboard
 IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
 PLATFORMS ?= linux/arm64,linux/amd64
 
@@ -50,9 +50,3 @@ docker-build:
 .PHONY: docker-run
 docker-run: docker-build
 	docker run --rm -it -p 8000:8000 $(IMG)
-
-.PHONY: docker-push
-docker-push:
-	- docker buildx create --name agent-builder
-	docker buildx use agent-builder
-	docker buildx build --push --platform=$(PLATFORMS) --tag ${IMG} .
