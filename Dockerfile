@@ -7,12 +7,12 @@ COPY frontend/ ./
 RUN npm run build
 
 # Stage 2: Python backend with static files
-FROM python:3.13-slim
+FROM python:3.13-slim-trixie
 
 WORKDIR /app
 
 # Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.8 /uv /bin/uv
 
 # Copy workspace configuration files for dependency resolution
 COPY uv.lock pyproject.toml ./
