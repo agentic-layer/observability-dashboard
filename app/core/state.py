@@ -1,11 +1,12 @@
-"""Global state management for the agent communications dashboard."""
-
-from typing import Dict
+"""Global state management for the observability dashboard."""
 
 from .connection_manager import ConnectionManager
+from .filter_registry import FilterRegistry
 
-# Dictionary to store managers for each conversation_id
-conversation_managers: Dict[str, ConnectionManager] = {}
+# Single global connection manager for all WebSocket connections
+# Each connection within this manager has its own FilterCriteria
+connection_manager = ConnectionManager()
 
-# Global manager for all conversations
-global_manager = ConnectionManager("global")
+# Global filter registry for tracking unique conversation IDs and workforce names
+# Values are tracked as events flow through the system with TTL-based expiry
+filter_registry = FilterRegistry()

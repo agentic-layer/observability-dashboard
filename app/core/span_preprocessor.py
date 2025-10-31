@@ -72,7 +72,7 @@ def _determine_event_type(span_name: str) -> Optional[str]:
 
 
 # Event type to factory function mapping
-EVENT_FACTORY_MAP: Dict[str, Callable[[str, str, str, Dict[str, Any]], CommunicationEvent]] = {
+EVENT_FACTORY_MAP: Dict[str, Callable[[str, str, str, Dict[str, Any], Dict[str, Any]], CommunicationEvent]] = {
     "agent_start": create_agent_start_event,
     "agent_end": create_agent_end_event,
     "llm_call_start": create_llm_call_start_event,
@@ -85,13 +85,18 @@ EVENT_FACTORY_MAP: Dict[str, Callable[[str, str, str, Dict[str, Any]], Communica
 
 
 def _create_communication_event(
-    event_type: str, agent_name: str, conversation_id: str, attributes: Dict[str, Any], start_time: str
+    event_type: str,
+    agent_name: str,
+    conversation_id: str,
+    attributes: Dict[str, Any],
+    start_time: str,
+    resource_attributes: Dict[str, Any],
 ) -> CommunicationEvent:
     """Create a CommunicationEvent object from span data using the appropriate factory function."""
     factory_func = EVENT_FACTORY_MAP.get(event_type)
     if not factory_func:
         raise ValueError(f"Unknown event type: {event_type}")
-    return factory_func(agent_name, conversation_id, start_time, attributes)
+    return factory_func(agent_name, conversation_id, start_time, attributes, resource_attributes)
 
 
 def _extract_attributes(
@@ -106,6 +111,11 @@ def _extract_attributes(
     return attrs
 
 
+def _extract_resource_attributes(resource: Resource) -> Dict[str, Union[str, int, float, bool]]:
+    """Extract all attributes from a resource."""
+    return _extract_attributes(resource.attributes)
+
+
 def _convert_timestamp_to_iso(timestamp_nano: int, span_name: str) -> Optional[str]:
     """Convert nanosecond timestamp to ISO format string."""
     try:
@@ -117,8 +127,14 @@ def _convert_timestamp_to_iso(timestamp_nano: int, span_name: str) -> Optional[s
 
 
 def _process_single_span(resource: Resource, span: trace_pb2.Span) -> Optional[CommunicationEvent]:
-    """Process a single span and return a communication event if valid."""
+    """
+    Process a single span and return a communication event if valid.
+
+    Returns:
+        CommunicationEvent or None if span should be skipped
+    """
     span_attributes = _extract_attributes(span.attributes)
+    resource_attributes = _extract_resource_attributes(resource)
 
     # Extract required attributes
     conversation_id = span_attributes.get("conversation_id")
@@ -127,7 +143,8 @@ def _process_single_span(resource: Resource, span: trace_pb2.Span) -> Optional[C
 
     if not conversation_id or not agent_name:
         logger.debug(
-            f"Skipping span '{span.name}': missing required attributes (conversation_id: {bool(conversation_id)}, agent_name: {bool(agent_name)})"
+            f"Skipping span '{span.name}': missing required attributes "
+            f"(conversation_id: {bool(conversation_id)}, agent_name: {bool(agent_name)})"
         )
         return None
 
@@ -144,10 +161,11 @@ def _process_single_span(resource: Resource, span: trace_pb2.Span) -> Optional[C
 
     # Create communication event
     event = _create_communication_event(
-        event_type, str(agent_name), str(conversation_id), span_attributes, iso_timestamp
+        event_type, str(agent_name), str(conversation_id), span_attributes, iso_timestamp, resource_attributes
     )
 
     logger.debug(f"Created {event_type} event for agent '{agent_name}' in conversation '{conversation_id}'")
+
     return event
 
 
@@ -155,6 +173,9 @@ def preprocess_spans(export_request: trace_service_pb2.ExportTraceServiceRequest
     """
     Preprocess incoming spans to create communication events.
     Only processes spans with observability flag and required attributes.
+
+    Returns:
+        List of CommunicationEvent objects
     """
     events = []
     span_count = sum(len(scope.spans) for rs in export_request.resource_spans for scope in rs.scope_spans)
