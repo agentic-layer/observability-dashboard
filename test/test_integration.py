@@ -130,14 +130,18 @@ def test_full_system_integration(
     global_events = []
     conversation_events = []
 
+    # Connect to global stream (no filter)
     with client.websocket_connect("/ws") as global_ws:
         welcome = global_ws.receive_json()
-        assert welcome["type"] == "global_connection_established"
+        assert welcome["type"] == "connection_established"
+        assert welcome["filters"]["conversation_id"] is None
+        assert welcome["filters"]["workforce"] is None
 
-        with client.websocket_connect(f"/ws/{conversation_1}") as conv_ws:
+        # Connect to conversation-specific stream using query parameter
+        with client.websocket_connect(f"/ws?conversation_id={conversation_1}") as conv_ws:
             conv_welcome = conv_ws.receive_json()
             assert conv_welcome["type"] == "connection_established"
-            assert conv_welcome["conversation_id"] == conversation_1
+            assert conv_welcome["filters"]["conversation_id"] == conversation_1
 
             create_test_spans_from_mock_data(mock_spans_data, client)
             time.sleep(0.1)
@@ -176,7 +180,8 @@ def test_conversation_filtering(
     assert conversation_1 is not None, "Could not find conversation_id in mock data"
     events_received = []
 
-    with client.websocket_connect(f"/ws/{conversation_1}") as websocket:
+    # Connect with conversation_id filter using query parameter
+    with client.websocket_connect(f"/ws?conversation_id={conversation_1}") as websocket:
         websocket.receive_json()
         create_test_spans_from_mock_data(mock_spans_data, client)
         time.sleep(0.1)

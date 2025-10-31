@@ -25,8 +25,28 @@ from .extractors import (
 logger = logging.getLogger(__name__)
 
 
+def _extract_workforce_name(resource_attributes: Dict[str, Any]) -> str | None:
+    """
+    Extract workforce_name from resource attributes.
+
+    Args:
+        resource_attributes: Resource attributes from the OTEL span
+
+    Returns:
+        Workforce name as string, or None if not present
+    """
+    workforce_name = resource_attributes.get("agentic_layer.workforce")
+    if workforce_name is not None:
+        return str(workforce_name)
+    return None
+
+
 def create_agent_start_event(
-    acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
+    acting_agent: str,
+    conversation_id: str,
+    timestamp: str,
+    attributes: Dict[str, Any],
+    resource_attributes: Dict[str, Any],
 ) -> AgentEvent:
     """Create an AgentEvent for agent start from span attributes."""
     return AgentEvent(
@@ -35,11 +55,16 @@ def create_agent_start_event(
         timestamp=timestamp,
         event_type="agent_start",
         invocation_id=attributes.get("invocation_id", ""),
+        workforce_name=_extract_workforce_name(resource_attributes),
     )
 
 
 def create_agent_end_event(
-    acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
+    acting_agent: str,
+    conversation_id: str,
+    timestamp: str,
+    attributes: Dict[str, Any],
+    resource_attributes: Dict[str, Any],
 ) -> AgentEvent:
     """Create an AgentEvent for agent end from span attributes."""
     return AgentEvent(
@@ -48,11 +73,16 @@ def create_agent_end_event(
         timestamp=timestamp,
         event_type="agent_end",
         invocation_id=attributes.get("invocation_id", ""),
+        workforce_name=_extract_workforce_name(resource_attributes),
     )
 
 
 def create_llm_call_start_event(
-    acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
+    acting_agent: str,
+    conversation_id: str,
+    timestamp: str,
+    attributes: Dict[str, Any],
+    resource_attributes: Dict[str, Any],
 ) -> LLMCallStartEvent:
     """Create an LLMCallStartEvent from span attributes."""
     return LLMCallStartEvent(
@@ -63,11 +93,16 @@ def create_llm_call_start_event(
         invocation_id=attributes.get("invocation_id", ""),
         model=attributes.get("model", ""),
         content=extract_llm_request_content(attributes),
+        workforce_name=_extract_workforce_name(resource_attributes),
     )
 
 
 def create_llm_call_end_event(
-    acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
+    acting_agent: str,
+    conversation_id: str,
+    timestamp: str,
+    attributes: Dict[str, Any],
+    resource_attributes: Dict[str, Any],
 ) -> LLMCallEndEvent:
     """Create an LLMCallEndEvent from span attributes."""
     return LLMCallEndEvent(
@@ -78,15 +113,22 @@ def create_llm_call_end_event(
         invocation_id=attributes.get("invocation_id", ""),
         content=extract_llm_response_content(attributes),
         usage_metadata=extract_usage_metadata(attributes),
+        workforce_name=_extract_workforce_name(resource_attributes),
     )
 
 
 def create_tool_call_start_event(
-    acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
+    acting_agent: str,
+    conversation_id: str,
+    timestamp: str,
+    attributes: Dict[str, Any],
+    resource_attributes: Dict[str, Any],
 ) -> ToolCallStartEvent:
     """Create a ToolCallStartEvent from span attributes."""
     invocation_id = attributes.get("invocation_id", "")
     tool_call = extract_tool_call(attributes)
+    workforce_name = _extract_workforce_name(resource_attributes)
+
     if attributes.get("tool_name") in ["transfer_to_agent", "send_message"]:
         return InvokeAgentStartEvent(
             acting_agent=acting_agent,
@@ -96,6 +138,7 @@ def create_tool_call_start_event(
             invocation_id=invocation_id,
             tool_call=tool_call,
             invoked_agent=extract_invoked_agent(attributes),
+            workforce_name=workforce_name,
         )
     return ToolCallStartEvent(
         acting_agent=acting_agent,
@@ -104,11 +147,16 @@ def create_tool_call_start_event(
         event_type="tool_call_start",
         invocation_id=invocation_id,
         tool_call=tool_call,
+        workforce_name=workforce_name,
     )
 
 
 def create_llm_call_error_event(
-    acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
+    acting_agent: str,
+    conversation_id: str,
+    timestamp: str,
+    attributes: Dict[str, Any],
+    resource_attributes: Dict[str, Any],
 ) -> LLMCallErrorEvent:
     """Create an LLMCallErrorEvent from span attributes."""
     return LLMCallErrorEvent(
@@ -120,11 +168,16 @@ def create_llm_call_error_event(
         model=attributes.get("model", ""),
         content=extract_llm_request_content(attributes),
         error=attributes.get("error", ""),
+        workforce_name=_extract_workforce_name(resource_attributes),
     )
 
 
 def create_tool_call_error_event(
-    acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
+    acting_agent: str,
+    conversation_id: str,
+    timestamp: str,
+    attributes: Dict[str, Any],
+    resource_attributes: Dict[str, Any],
 ) -> ToolCallErrorEvent:
     """Create a ToolCallErrorEvent from span attributes."""
     return ToolCallErrorEvent(
@@ -135,16 +188,23 @@ def create_tool_call_error_event(
         invocation_id=attributes.get("invocation_id", ""),
         tool_call=extract_tool_call(attributes),
         error=attributes.get("error", ""),
+        workforce_name=_extract_workforce_name(resource_attributes),
     )
 
 
 def create_tool_call_end_event(
-    acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
+    acting_agent: str,
+    conversation_id: str,
+    timestamp: str,
+    attributes: Dict[str, Any],
+    resource_attributes: Dict[str, Any],
 ) -> ToolCallEndEvent:
     """Create a ToolCallEndEvent from span attributes."""
     invocation_id = attributes.get("invocation_id", "")
     tool_call = extract_tool_call(attributes)
     response = extract_tool_response(attributes)
+    workforce_name = _extract_workforce_name(resource_attributes)
+
     if response is not None:
         if isinstance(response.get("text"), str):
             try:
@@ -162,6 +222,7 @@ def create_tool_call_end_event(
             tool_call=tool_call,
             response=response,
             invoked_agent=extract_invoked_agent(attributes),
+            workforce_name=workforce_name,
         )
     return ToolCallEndEvent(
         acting_agent=acting_agent,
@@ -171,4 +232,5 @@ def create_tool_call_end_event(
         invocation_id=invocation_id,
         tool_call=tool_call,
         response=response,
+        workforce_name=workforce_name,
     )
