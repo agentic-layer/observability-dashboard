@@ -25,6 +25,8 @@ class BaseEvent:
             - "invoke_agent_start": Agent-to-agent call begins
             - "invoke_agent_end": Agent-to-agent call completes
         invocation_id (str): Optional identifier for one agent invocation.
+        workforce_name (str | None): The workforce name from resource attributes (agentic_layer.workforce).
+            Used for filtering events by workforce. None if not specified.
     """
 
     acting_agent: str
@@ -32,6 +34,7 @@ class BaseEvent:
     timestamp: str
     event_type: str
     invocation_id: str = ""
+    workforce_name: str | None = None
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert event to JSON-serializable dictionary."""

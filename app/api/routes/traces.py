@@ -1,13 +1,12 @@
 import gzip
 import logging
-from typing import Dict, List
+from typing import List
 
 from fastapi import APIRouter, Request, Response, status
 from google.protobuf import json_format
 from google.protobuf.message import DecodeError
 from opentelemetry.proto.collector.trace.v1 import trace_service_pb2
 
-from ...core.connection_manager import ConnectionManager
 from ...core.span_preprocessor import preprocess_spans
 from ...models.events import CommunicationEvent
 
@@ -17,21 +16,27 @@ logger = logging.getLogger(__name__)
 
 async def distribute_events(
     events: List[CommunicationEvent],
-    conversation_managers: Dict[str, ConnectionManager],
-    global_manager: ConnectionManager,
 ) -> None:
-    """Distribute events to both conversation-specific and global WebSocket connections."""
+    """
+    Distribute events to WebSocket connections based on their filters.
+
+    Args:
+        events: List of CommunicationEvent objects
+    """
+    from ...core.state import connection_manager, filter_registry
+
     for event in events:
+        # Register filter values for the API
+        filter_registry.register_event(event.conversation_id, event.workforce_name)
+
         event_data = event.to_dict()
 
-        # Send to conversation-specific manager if it exists
-        if event.conversation_id in conversation_managers:
-            await conversation_managers[event.conversation_id].send_message(event_data)
+        # Send to all connections whose filters match
+        await connection_manager.send_message(data=event_data, event=event)
 
-        # Send to global manager
-        await global_manager.send_message(event_data)
-
-        logger.info(f"Sent event: {event.event_type} from {event.acting_agent} to conversation {event.conversation_id}")
+        logger.debug(
+            f"Distributed {event.event_type} from {event.acting_agent} in conversation {event.conversation_id}"
+        )
 
 
 @router.post("/v1/traces")
@@ -40,8 +45,6 @@ async def receive_traces(request: Request) -> Response:
     OTLP/HTTP endpoint for receiving trace data.
     Accepts both protobuf-encoded and JSON trace data from OpenTelemetry collectors/exporters.
     """
-    from ...core.state import conversation_managers, global_manager
-
     body = await request.body()
     content_type = request.headers.get("content-type", "").lower()
     content_encoding = request.headers.get("content-encoding", "").lower()
@@ -71,11 +74,12 @@ async def receive_traces(request: Request) -> Response:
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         )
 
+    # preprocess_spans returns List[CommunicationEvent]
     events = preprocess_spans(export_request)
 
     if events:
         logger.debug(f"Created {len(events)} communication events")
-        await distribute_events(events, conversation_managers, global_manager)
+        await distribute_events(events)
     else:
         logger.debug("No relevant communication events found")
 
