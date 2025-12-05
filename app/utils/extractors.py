@@ -33,8 +33,17 @@ _PATTERN_FUNCTION_CALL_LLM_RESPONSE = re.compile(r"llm_response\.content\.parts\
 
 
 def extract_invoked_agent(attributes: Dict[str, Any]) -> str:
-    """Extract invoked agent from tool call attributes."""
-    return str(attributes.get("args.agent_name", ""))
+    """Extract invoked agent from tool call attributes.
+
+    For AgentTool calls (tool_call interaction type), the tool_name IS the agent name.
+    For transfer_to_agent (transfer interaction type), the agent name is in args.agent_name.
+    """
+    # For transfer_to_agent, agent name is passed as argument
+    if attributes.get("tool_name") == "transfer_to_agent":
+        return str(attributes.get("args.agent_name", ""))
+
+    # For AgentTool calls, the tool_name is the agent name
+    return str(attributes.get("tool_name", ""))
 
 
 def extract_tool_response(attributes: Dict[str, Any]) -> Dict[str, Any]:
