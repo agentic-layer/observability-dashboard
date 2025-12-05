@@ -1,5 +1,13 @@
 {
   "extends": [
     "github>agentic-layer/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "description": "Python 3.14 incompatible with many transitive dependencies (pydantic-core, grpcio)",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["python"],
+      "allowedVersions": "< 3.14"
+    }
   ]
 }
