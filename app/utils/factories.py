@@ -81,13 +81,32 @@ def create_llm_call_end_event(
     )
 
 
+def _is_agent_tool_call(attributes: Dict[str, Any]) -> bool:
+    """Check if the tool call is an agent invocation.
+
+    Uses a heuristic based on argument patterns:
+    - AgentTool calls (sub-agent invocations) have only 'args.request' as their argument
+    - transfer_to_agent is the legacy agent invocation method
+    """
+    # transfer_to_agent is the legacy agent invocation (transfer interaction type)
+    if attributes.get("tool_name") == "transfer_to_agent":
+        return True
+
+    # AgentTool heuristic: only has args.request, no other args
+    args_keys = [k for k in attributes if k.startswith("args.")]
+    if args_keys == ["args.request"]:
+        return True
+
+    return False
+
+
 def create_tool_call_start_event(
     acting_agent: str, conversation_id: str, timestamp: str, attributes: Dict[str, Any]
 ) -> ToolCallStartEvent:
     """Create a ToolCallStartEvent from span attributes."""
     invocation_id = attributes.get("invocation_id", "")
     tool_call = extract_tool_call(attributes)
-    if attributes.get("tool_name") in ["transfer_to_agent", "send_message"]:
+    if _is_agent_tool_call(attributes):
         return InvokeAgentStartEvent(
             acting_agent=acting_agent,
             conversation_id=conversation_id,
@@ -152,7 +171,7 @@ def create_tool_call_end_event(
             except json.JSONDecodeError:
                 logger.debug("Failed to parse tool response text as JSON: %s", response["text"], exc_info=True)
                 pass
-    if attributes.get("tool_name") in ["transfer_to_agent", "send_message"]:
+    if _is_agent_tool_call(attributes):
         return InvokeAgentEndEvent(
             acting_agent=acting_agent,
             conversation_id=conversation_id,
