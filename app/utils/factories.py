@@ -86,9 +86,8 @@ def _is_agent_tool_call(attributes: Dict[str, Any]) -> bool:
 
     Uses a heuristic based on argument patterns:
     - AgentTool calls (sub-agent invocations) have only 'args.request' as their argument
-    - transfer_to_agent is the legacy agent invocation method
+    - transfer_to_agent is an explicit agent transfer method
     """
-    # transfer_to_agent is the legacy agent invocation (transfer interaction type)
     if attributes.get("tool_name") == "transfer_to_agent":
         return True
 

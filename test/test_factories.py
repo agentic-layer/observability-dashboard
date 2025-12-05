@@ -15,8 +15,8 @@ class TestIsAgentToolCall:
         }
         assert _is_agent_tool_call(attrs) is True
 
-    def test_legacy_transfer_to_agent(self) -> None:
-        """Legacy transfer_to_agent is always an agent invocation."""
+    def test_transfer_to_agent(self) -> None:
+        """transfer_to_agent is always an agent invocation."""
         attrs = {
             "tool_name": "transfer_to_agent",
             "args.agent_name": "weather-agent",
