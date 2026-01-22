@@ -1,4 +1,5 @@
 name: Check
+
 on:
   push:
     branches:
@@ -7,37 +8,43 @@ on:
   pull_request:
 
 jobs:
-  check-backend:
+  python:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: 'actions/checkout@v5'
+        uses: 'actions/checkout@v6'
 
       - name: Install uv
-        uses: 'astral-sh/setup-uv@v6'
+        uses: 'astral-sh/setup-uv@v7'
         with:
-          version: "0.8.11"
+          version: "0.9.26"
           enable-cache: true
-
-      - name: Setup Python
-        uses: 'actions/setup-python@v5'
-        with:
-          python-version-file: "pyproject.toml"
-
-      - name: Install Dependencies
-        run: uv sync --all-packages
 
       - name: Run checks
         run: make check
 
-  check-frontend:
+  helm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: 'actions/checkout@v6'
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'v3.14.0'
+
+      - name: Lint Helm Chart
+        run: helm lint chart/
+
+  npm:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: ./frontend
     steps:
       - name: Checkout
-        uses: 'actions/checkout@v5'
+        uses: 'actions/checkout@v6'
 
       - name: Setup Node.js
         uses: 'actions/setup-node@v4'
@@ -49,20 +56,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build Frontend
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
         run: npm run build
-
-  build-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-
-    steps:
-      - name: 'Checkout'
-        uses: 'actions/checkout@v5'
-        with:
-          fetch-depth: 0 # required to fetch all history for all branches and tags
-
-      - name: 'Docker Build'
-        run: |
-          make docker-build

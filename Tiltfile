@@ -1,13 +1,19 @@
 # Tiltfile for observability-dashboard development
 
-# Apply Kubernetes manifests
-k8s_yaml(kustomize('deploy/local'))
-
-# Build and deploy the app
-app_name = 'observability-dashboard'
+# Install base resources via Helm chart (local development)
+# Override image repositories to use local Tilt-built images (without registry prefix)
+k8s_yaml(helm(
+    'chart',
+    name='observability-dashboard',
+    namespace='observability-dashboard',
+    values=['chart/values.yaml'],
+    set=[
+        'image.repository=observability-dashboard',
+    ],
+))
 
 docker_build(
-    app_name,
+    'observability-dashboard',
     context='.',
     live_update=[
         # Sync backend source code changes
@@ -25,7 +31,7 @@ docker_build(
 )
 
 k8s_resource(
-    app_name,
+    'observability-dashboard',
     port_forwards='10005:8000',
-    labels=[app_name],
+    labels=['observability-dashboard'],
 )
