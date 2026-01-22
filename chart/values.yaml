@@ -1,0 +1,49 @@
+# Default values for observability-dashboard
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/agentic-layer/observability-dashboard
+  # Overrides the image tag whose default is the chart appVersion
+  tag: ""
+  pullPolicy: IfNotPresent
+
+namespace:
+  # Create namespace if it doesn't exist
+  create: true
+  # Namespace name
+  name: observability-dashboard
+
+service:
+  type: ClusterIP
+  port: 8000
+
+containerPort: 8000
+
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  httpGet:
+    port: 8000
+    path: /health
+
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 30
+  httpGet:
+    port: 8000
+    path: /health
+
+# Environment variables
+env:
+  - name: LOGLEVEL
+    value: INFO
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

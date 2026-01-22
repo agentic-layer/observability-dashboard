@@ -1,0 +1,17 @@
+apiVersion: v2
+name: observability-dashboard
+description: A Helm chart for the Observability Dashboard - OTLP collector and websocket for agent events
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - observability
+  - otlp
+  - websocket
+  - monitoring
+maintainers:
+  - name: Agentic Layer Team
+    url: https://docs.agentic-layer.ai/
+home: https://github.com/agentic-layer/observability-dashboard
+sources:
+  - https://github.com/agentic-layer/observability-dashboard
