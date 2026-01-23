@@ -101,6 +101,14 @@ tilt up
 ```
 The application will be available at http://localhost:10005, with the Tilt UI at http://localhost:10350.
 
+**Option C: With Helm**
+
+Install the chart from the OCI registry for production deployments.
+
+```bash
+helm install observability-dashboard oci://ghcr.io/agentic-layer/charts/observability-dashboard
+```
+
 
 ## End-to-End (E2E) Testing
 
