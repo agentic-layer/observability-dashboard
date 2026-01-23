@@ -4,6 +4,10 @@ import {
   getSmoothStepPath,
 } from '@xyflow/react';
 
+interface DataFlowEdgeData {
+  running?: boolean;
+}
+
 export function DataFlowEdge({
   id,
   sourceX,
@@ -13,7 +17,7 @@ export function DataFlowEdge({
   sourcePosition,
   targetPosition,
   data,
-}: EdgeProps) {
+}: EdgeProps<DataFlowEdgeData>) {
   const [edgePath] = getSmoothStepPath({
     sourceX,
     sourceY,
@@ -24,7 +28,7 @@ export function DataFlowEdge({
     borderRadius: 8,
   });
 
-  const isActive = (data as any)?.running || false;
+  const isActive = data?.running || false;
 
   return (
     <>
@@ -39,7 +43,7 @@ export function DataFlowEdge({
         className="react-flow__edge-path"
         d={edgePath}
       />
-      
+
       {/* Active data flow overlay */}
       {isActive && (
         <path

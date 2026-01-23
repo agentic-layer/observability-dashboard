@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import useWebSocket from 'react-use-websocket';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { useWebSocketCommands } from './useWebSocketCommands';
 import { createCommandFromEvent } from '@/lib/commandFactory';
 import { CommunicationEvent } from '@/model/events';
@@ -8,6 +8,15 @@ import { CommunicationEvent } from '@/model/events';
 // Mock dependencies
 vi.mock('react-use-websocket');
 vi.mock('@/lib/commandFactory');
+
+// Helper type for mocking useWebSocket return value
+type MockWebSocketReturn = {
+    lastJsonMessage: CommunicationEvent | null;
+    sendMessage: ReturnType<typeof vi.fn>;
+    sendJsonMessage: ReturnType<typeof vi.fn>;
+    readyState: ReadyState;
+    getWebSocket: ReturnType<typeof vi.fn>;
+};
 
 describe('useWebSocketCommands', () => {
     const mockUrl = 'ws://localhost:10005/ws';
@@ -23,9 +32,9 @@ describe('useWebSocketCommands', () => {
             lastJsonMessage: null,
             sendMessage: vi.fn(),
             sendJsonMessage: vi.fn(),
-            readyState: 1,
+            readyState: ReadyState.OPEN,
             getWebSocket: vi.fn(),
-        } as any);
+        } as MockWebSocketReturn);
 
         const { result } = renderHook(() => useWebSocketCommands(mockUrl));
 
@@ -51,11 +60,11 @@ describe('useWebSocketCommands', () => {
             lastJsonMessage: mockMessage,
             sendMessage: vi.fn(),
             sendJsonMessage: vi.fn(),
-            readyState: 1,
+            readyState: ReadyState.OPEN,
             getWebSocket: vi.fn(),
-        } as any);
+        } as MockWebSocketReturn);
 
-        mockCreateCommandFromEvent.mockReturnValue(mockCommand as any);
+        mockCreateCommandFromEvent.mockReturnValue(mockCommand);
 
         const { result } = renderHook(() => useWebSocketCommands(mockUrl));
 
@@ -64,21 +73,21 @@ describe('useWebSocketCommands', () => {
     });
 
     it('should handle null command from createCommandFromEvent', () => {
-        const mockMessage: CommunicationEvent = {
-            event_type: 'unknown_event' as any,
+        const mockMessage = {
+            event_type: 'unknown_event',
             acting_agent: 'test-agent',
             conversation_id: 'conv-123',
             timestamp: '2024-01-01T00:00:00Z',
             invocation_id: 'inv-123',
-        };
+        } as CommunicationEvent;
 
         mockUseWebSocket.mockReturnValue({
             lastJsonMessage: mockMessage,
             sendMessage: vi.fn(),
             sendJsonMessage: vi.fn(),
-            readyState: 1,
+            readyState: ReadyState.OPEN,
             getWebSocket: vi.fn(),
-        } as any);
+        } as MockWebSocketReturn);
 
         mockCreateCommandFromEvent.mockReturnValue(null);
 
@@ -113,11 +122,11 @@ describe('useWebSocketCommands', () => {
             lastJsonMessage: firstMessage,
             sendMessage: vi.fn(),
             sendJsonMessage: vi.fn(),
-            readyState: 1,
+            readyState: ReadyState.OPEN,
             getWebSocket: vi.fn(),
-        } as any);
+        } as MockWebSocketReturn);
 
-        mockCreateCommandFromEvent.mockReturnValue(firstCommand as any);
+        mockCreateCommandFromEvent.mockReturnValue(firstCommand);
 
         const { result, rerender } = renderHook(() => useWebSocketCommands(mockUrl));
 
@@ -128,11 +137,11 @@ describe('useWebSocketCommands', () => {
             lastJsonMessage: secondMessage,
             sendMessage: vi.fn(),
             sendJsonMessage: vi.fn(),
-            readyState: 1,
+            readyState: ReadyState.OPEN,
             getWebSocket: vi.fn(),
-        } as any);
+        } as MockWebSocketReturn);
 
-        mockCreateCommandFromEvent.mockReturnValue(secondCommand as any);
+        mockCreateCommandFromEvent.mockReturnValue(secondCommand);
 
         rerender();
 
@@ -158,11 +167,11 @@ describe('useWebSocketCommands', () => {
             lastJsonMessage: mockMessage,
             sendMessage: vi.fn(),
             sendJsonMessage: vi.fn(),
-            readyState: 1,
+            readyState: ReadyState.OPEN,
             getWebSocket: vi.fn(),
-        } as any);
+        } as MockWebSocketReturn);
 
-        mockCreateCommandFromEvent.mockReturnValue(mockCommand as any);
+        mockCreateCommandFromEvent.mockReturnValue(mockCommand);
 
         const { result, rerender } = renderHook(() => useWebSocketCommands(mockUrl));
 
@@ -186,9 +195,9 @@ describe('useWebSocketCommands', () => {
             lastJsonMessage: null,
             sendMessage: vi.fn(),
             sendJsonMessage: vi.fn(),
-            readyState: 1,
+            readyState: ReadyState.OPEN,
             getWebSocket: vi.fn(),
-        } as any);
+        } as MockWebSocketReturn);
 
         renderHook(() => useWebSocketCommands(customUrl));
 

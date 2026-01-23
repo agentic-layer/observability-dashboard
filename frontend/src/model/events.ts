@@ -2,7 +2,7 @@
 
 export interface ToolResponse {
   tool_name: string;
-  response: Record<string, any>;
+  response: Record<string, unknown>;
 }
 
 export interface TextContent {
@@ -44,7 +44,7 @@ export interface BaseEvent {
   invocation_id: string;
 }
 
-export interface AgentEvent extends BaseEvent {}
+export type AgentEvent = BaseEvent;
 
 export interface LLMCallStartEvent extends BaseEvent {
   model: string;
@@ -68,7 +68,7 @@ export interface ToolCallStartEvent extends BaseEvent {
 
 export interface ToolCallEndEvent extends BaseEvent {
   tool_call: ToolCall;
-  response: Record<string, any>;
+  response: Record<string, unknown>;
 }
 
 export interface ToolCallErrorEvent extends BaseEvent {
@@ -108,4 +108,3 @@ export function isToolResponse(content: TextContent | ToolResponse | ToolCall): 
 export function isToolCall(content: TextContent | ToolResponse | ToolCall): content is ToolCall {
   return 'arguments' in content && 'tool_name' in content;
 }
-

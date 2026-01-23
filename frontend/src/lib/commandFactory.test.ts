@@ -14,10 +14,20 @@ import {
 import { GraphState } from '@/model/graphstate';
 import { Command } from '@/model/command';
 
+interface MockAgent {
+    running: boolean;
+    llmCalls: Array<{ text: string; state: string }>;
+    toolCalls: Array<{ name: string; state: string }>;
+}
+
+interface MockEdge {
+    running: boolean;
+}
+
 describe('commandFactory', () => {
     let mockGraphState: GraphState;
-    let mockAgent: any;
-    let mockEdge: any;
+    let mockAgent: MockAgent;
+    let mockEdge: MockEdge;
 
     beforeEach(() => {
         mockAgent = {
@@ -25,7 +35,7 @@ describe('commandFactory', () => {
             llmCalls: [],
             toolCalls: []
         };
-        
+
         mockEdge = {
             running: false
         };
@@ -33,7 +43,7 @@ describe('commandFactory', () => {
         mockGraphState = {
             getOrCreateAgent: vi.fn().mockReturnValue(mockAgent),
             getOrCreateA2aCall: vi.fn().mockReturnValue(mockEdge)
-        } as any;
+        } as GraphState;
     });
 
     describe('createCommandFromEvent', () => {
@@ -43,7 +53,7 @@ describe('commandFactory', () => {
                 conversation_id: 'conv-123',
                 timestamp: '2024-01-01T00:00:00Z',
                 invocation_id: 'inv-123'
-            } as any;
+            } as CommunicationEvent;
 
             const command = createCommandFromEvent(event);
             expect(command).toBeNull();
@@ -51,19 +61,19 @@ describe('commandFactory', () => {
 
         it('should return null for unknown event type', () => {
             const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-            const event: CommunicationEvent = {
-                event_type: 'unknown_event' as any,
+            const event = {
+                event_type: 'unknown_event',
                 acting_agent: 'test-agent',
                 conversation_id: 'conv-123',
                 timestamp: '2024-01-01T00:00:00Z',
                 invocation_id: 'inv-123'
-            };
+            } as CommunicationEvent;
 
             const command = createCommandFromEvent(event);
-            
+
             expect(command).toBeNull();
             expect(consoleSpy).toHaveBeenCalledWith('Unknown event type:', 'unknown_event');
-            
+
             consoleSpy.mockRestore();
         });
 
@@ -77,7 +87,7 @@ describe('commandFactory', () => {
             };
 
             const command = createCommandFromEvent(event);
-            
+
             expect(command).toBeInstanceOf(Command);
             expect(command?.type).toBe('agent_start');
             expect(command?.execute).toBeInstanceOf(Function);
@@ -154,7 +164,7 @@ describe('commandFactory', () => {
                 content: {
                     role: 'user',
                     content: [
-                        { 
+                        {
                             tool_name: 'search_tool',
                             response: { }
                         }
