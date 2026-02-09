@@ -2,7 +2,7 @@
 name = "observability-dashboard"
 version = "0.1.0"
 description = "Implements OTLP collector and websocket to retrieve and broadcast agent events"
-requires-python = ">=3.13,<3.14"
+requires-python = ">=3.14,<3.15"
 dependencies = [
     "fastapi[standard]>=0.116.1",
     "opentelemetry-exporter-otlp-proto-http>=1.36.0",
