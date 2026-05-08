@@ -1,0 +1,315 @@
+// REFERENCE — Diátaxis
+// This page is information-shaped: tables, field lists, full API surface.
+// DO: be exhaustive within scope; use stable, ctrl-F-able structure;
+//     one heading per resource/CRD/command/field group.
+// DON'T: include tutorials, decision trees, or "why" explanations.
+// If a section drifts into "how would you do X" → move to how-to-guide.adoc.
+// If a section drifts into "why this exists" → move to explanation.adoc.
+
+= Observability Dashboard Reference
+
+This reference covers the Helm chart values, HTTP and WebSocket endpoints, WebSocket
+event types, and configuration environment variables for the Observability Dashboard.
+
+== Helm chart values
+
+[cols="2,1,1,4"]
+|===
+| Field | Type | Default | Description
+
+| `replicaCount`
+| integer
+| `1`
+| Number of dashboard replicas.
+
+| `image.repository`
+| string
+| `ghcr.io/agentic-layer/observability-dashboard`
+| Container image repository.
+
+| `image.tag`
+| string
+| `""` (chart `appVersion`)
+| Container image tag. Empty string uses the chart's `appVersion`.
+
+| `image.pullPolicy`
+| string
+| `IfNotPresent`
+| Kubernetes image pull policy.
+
+| `namespace.create`
+| boolean
+| `true`
+| When `true`, the chart creates the target namespace if it does not exist.
+
+| `namespace.name`
+| string
+| `observability-dashboard`
+| Namespace into which the dashboard is deployed.
+
+| `service.type`
+| string
+| `ClusterIP`
+| Kubernetes Service type.
+
+| `service.port`
+| integer
+| `8000`
+| Port exposed by the Service.
+
+| `containerPort`
+| integer
+| `8000`
+| Port the container listens on.
+
+| `env`
+| list
+| `[{name: LOGLEVEL, value: INFO}]`
+| Environment variables injected into the container. See <<Configuration environment variables>>.
+
+| `readinessProbe.initialDelaySeconds`
+| integer
+| `5`
+| Seconds to wait before the first readiness check.
+
+| `readinessProbe.periodSeconds`
+| integer
+| `5`
+| Interval between readiness checks.
+
+| `readinessProbe.httpGet.path`
+| string
+| `/health`
+| Path used for the readiness HTTP probe.
+
+| `readinessProbe.httpGet.port`
+| integer
+| `8000`
+| Port used for the readiness HTTP probe.
+
+| `livenessProbe.initialDelaySeconds`
+| integer
+| `30`
+| Seconds to wait before the first liveness check.
+
+| `livenessProbe.periodSeconds`
+| integer
+| `30`
+| Interval between liveness checks.
+
+| `livenessProbe.httpGet.path`
+| string
+| `/health`
+| Path used for the liveness HTTP probe.
+
+| `livenessProbe.httpGet.port`
+| integer
+| `8000`
+| Port used for the liveness HTTP probe.
+
+| `resources.limits.cpu`
+| string
+| `100m`
+| CPU limit for the container.
+
+| `resources.limits.memory`
+| string
+| `128Mi`
+| Memory limit for the container.
+
+| `resources.requests.cpu`
+| string
+| `100m`
+| CPU request for the container.
+
+| `resources.requests.memory`
+| string
+| `128Mi`
+| Memory request for the container.
+|===
+
+== HTTP endpoints
+
+[cols="1,2,4"]
+|===
+| Method | Path | Description
+
+| `POST`
+| `/v1/traces`
+| OTLP/HTTP trace ingest. Accepts `application/x-protobuf` or `application/json`
+  content types. Handles optional gzip compression (`Content-Encoding: gzip`).
+  Returns `200 OK` on success with a serialized `ExportTraceServiceResponse`.
+  Returns `400` for invalid gzip or malformed protobuf, `415` for unsupported content types.
+
+| `GET`
+| `/health`
+| Liveness and readiness probe. Returns `+{"status": "healthy"}+` with HTTP `200`
+  when the service is running.
+
+| `GET`
+| `/api/filters`
+| Returns active conversation IDs and workforce names seen in the last 24 hours.
+  Response shape: `+{"conversation_ids": [...], "workforce_names": [...]}+`.
+
+| `GET`
+| `/api/filters/stats`
+| Returns counts of currently tracked filter values.
+  Response shape: `+{"conversation_ids_count": N, "workforce_names_count": N}+`.
+
+| `GET`
+| `/`
+| Serves the bundled single-page application (SPA) at the root path and all
+  unmatched paths via the `index.html` fallback.
+|===
+
+== WebSocket endpoints
+
+[cols="1,4"]
+|===
+| Path | Description
+
+| `/ws`
+| Global event stream. Receives all processed events from all agents.
+  Accepts optional query parameters `conversation_id` and `workforce` to filter
+  events server-side (see <<WebSocket filtering>>).
+
+| `+/ws?conversation_id={uuid}+`
+| Filtered stream. Only events where `conversation_id` matches the given UUID4 value
+  are sent to this connection.
+
+| `+/ws?workforce={name}+`
+| Filtered stream. Only events where the `agentic_layer.workforce` resource attribute
+  matches the given workforce name are sent to this connection.
+|===
+
+On connection, the server sends a welcome message:
+
+[source,json]
+----
+{
+  "type": "connection_established",
+  "message": "Connected to observability dashboard",
+  "filters": {
+    "conversation_id": null,
+    "workforce": null
+  }
+}
+----
+
+=== WebSocket filtering
+
+Both filter parameters can be combined: `+/ws?conversation_id={uuid}&workforce={name}+`.
+An event is delivered only when all specified non-null filters match.
+
+`conversation_id` must be a valid UUID4 string (36 characters, format
+`+^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$+`).
+
+== WebSocket event types
+
+All events share the `BaseEvent` fields. Additional fields are present for specific
+event types.
+
+=== Base event fields
+
+[cols="1,1,4"]
+|===
+| Field | Type | Description
+
+| `event_type`
+| string
+| Discriminator. One of the values listed in the table below.
+
+| `acting_agent`
+| string
+| Name of the agent that generated this event.
+
+| `conversation_id`
+| string
+| UUID4 identifier for the conversation this event belongs to.
+
+| `timestamp`
+| string
+| ISO 8601 UTC timestamp (e.g. `2024-01-15T10:30:00Z`).
+
+| `invocation_id`
+| string
+| Identifier for one agent invocation within a conversation. Empty string if not set.
+
+| `workforce_name`
+| string or null
+| Value of the `agentic_layer.workforce` OTel resource attribute, or `null` if not present.
+|===
+
+=== Event type reference
+
+[cols="1,4,3"]
+|===
+| `event_type` | Description | Additional fields
+
+| `agent_start`
+| Agent begins execution.
+| None beyond base fields.
+
+| `agent_end`
+| Agent completes execution.
+| None beyond base fields.
+
+| `llm_call_start`
+| LLM request initiated.
+| `model` (string): model name. +
+  `content` (LlmRequestContent): role and content of the request.
+
+| `llm_call_end`
+| LLM response received.
+| `content` (LlmResponseContent): role and response parts. +
+  `usage_metadata` (UsageMetadata): token usage breakdown.
+
+| `llm_call_error`
+| LLM call failed.
+| `model` (string): model name. +
+  `content` (LlmRequestContent): the request that failed. +
+  `error` (string): error message.
+
+| `tool_call_start`
+| Tool invocation begins.
+| `tool_call` (ToolCall): `tool_name` and `arguments`.
+
+| `tool_call_end`
+| Tool invocation completes.
+| `tool_call` (ToolCall): `tool_name` and `arguments`. +
+  `response` (object): tool output.
+
+| `tool_call_error`
+| Tool invocation failed.
+| `tool_call` (ToolCall): `tool_name` and `arguments`. +
+  `error` (string): error message.
+
+| `invoke_agent_start`
+| Agent-to-agent call begins.
+| `tool_call` (ToolCall): the tool call that triggered the invocation. +
+  `invoked_agent` (string): name of the agent being called.
+
+| `invoke_agent_end`
+| Agent-to-agent call completes.
+| `tool_call` (ToolCall): the tool call that triggered the invocation. +
+  `response` (object): the called agent's output. +
+  `invoked_agent` (string): name of the agent that was called.
+|===
+
+== Configuration environment variables
+
+[cols="1,1,1,4"]
+|===
+| Variable | Default | Set in | Description
+
+| `LOGLEVEL`
+| `INFO`
+| `values.yaml` `env`
+| Controls the Python logging level for the application.
+  Accepted values: `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`.
+|===
+
+== Related
+
+* xref:observability-dashboard::how-to-guide.adoc[]
+* xref:observability-dashboard::explanation.adoc[]

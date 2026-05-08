@@ -3,6 +3,15 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 For more information, please refer to the [README](README.md).
 
+## User Guides and How-To Guides
+
+- @docs/modules/ROOT/pages/how-to-guide.adoc
+
+## Reference Documentation
+
+- @docs/modules/ROOT/pages/reference.adoc
+- Overall Agentic Layer Architecture: https://docs.agentic-layer.ai/architecture/main/index.html
+
 ## Architecture
 
 - **FastAPI Service** (`src/main.py`): REST API endpoints for trace ingestion and WebSocket connections

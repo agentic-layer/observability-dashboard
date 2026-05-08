@@ -1,0 +1,115 @@
+// HOW-TO GUIDE — Diátaxis
+// This page answers a goal-shaped question: "how do I do X?"
+// DO: assume context; give concrete steps; link to reference for fields.
+// DON'T: teach concepts; duplicate reference content; include long explanations.
+// If a section drifts into "what is this and why" → move to explanation.adoc.
+// If a section drifts into "exhaustive list of fields/values" → move to reference.adoc.
+// If a section turns into a from-zero walkthrough → move to a tutorial in a showcase repo.
+
+= Deploy and View the Observability Dashboard
+
+This guide walks you through installing the Observability Dashboard in your Kubernetes
+cluster, configuring your agents to send traces to it, and opening the live event stream.
+
+== Prerequisites
+
+* A running Kubernetes cluster with `kubectl` configured.
+* https://helm.sh/[Helm] 3+.
+* At least one agent instrumented with OpenTelemetry and deployed in the cluster.
+  See xref:agent-runtime-operator:agent-runtime:how-to-guides/install.adoc[Install the Agent Runtime Operator]
+  for how to run agents on the Agentic Layer.
+
+== Install via Helm
+
+Install the dashboard from the OCI registry:
+
+[source,bash]
+----
+helm install observability-dashboard \
+  oci://ghcr.io/agentic-layer/charts/observability-dashboard
+----
+
+The chart creates the `observability-dashboard` namespace by default and deploys a
+single replica listening on port `8000`.
+
+To override values — for example to set a custom log level — pass them with `--set`:
+
+[source,bash]
+----
+helm install observability-dashboard \
+  oci://ghcr.io/agentic-layer/charts/observability-dashboard \
+  --set env[0].name=LOGLEVEL --set env[0].value=DEBUG
+----
+
+See xref:observability-dashboard::reference.adoc[Observability Dashboard Reference] for the
+full list of chart values.
+
+== Configure agents to send traces
+
+Point your agents' OTLP exporter at the dashboard's in-cluster service URL:
+
+----
+http://observability-dashboard.observability-dashboard.svc.cluster.local:8000/v1/traces
+----
+
+How you set the exporter endpoint depends on your agent framework. The most common
+approach is to set the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable on the
+agent container. If you are using the Agent Runtime Operator, add it to the agent's
+`spec.env`:
+
+[source,yaml]
+----
+spec:
+  env:
+    - name: OTEL_EXPORTER_OTLP_ENDPOINT
+      value: http://observability-dashboard.observability-dashboard.svc.cluster.local:8000/v1/traces
+----
+
+The dashboard accepts OTLP/HTTP with both `application/x-protobuf` and
+`application/json` content types and handles gzip-compressed payloads automatically.
+
+== Open the dashboard
+
+Port-forward the service to your local machine and open the web UI:
+
+[source,bash]
+----
+kubectl port-forward -n observability-dashboard service/observability-dashboard 8100:8000
+----
+
+Navigate to http://localhost:8100 in your browser. The dashboard serves its single-page
+application at `/` and streams agent events to the browser over a WebSocket connection.
+
+== Verify
+
+Check that the pod is running and the health endpoint responds:
+
+[source,bash]
+----
+# Check the pod
+kubectl get pods -n observability-dashboard
+
+# Check the health endpoint (after port-forwarding above)
+curl http://localhost:8100/health
+----
+
+A healthy response looks like:
+
+[source,json]
+----
+{"status": "healthy"}
+----
+
+Once your agents are sending traces, the dashboard's event stream will show
+`agent_start`, `llm_call_start`, `tool_call_start`, and related events in real time.
+You can also subscribe to the raw WebSocket stream from the command line:
+
+[source,bash]
+----
+websocat ws://localhost:8100/ws
+----
+
+== Related
+
+* xref:observability-dashboard::reference.adoc[]
+* xref:observability-dashboard::explanation.adoc[]

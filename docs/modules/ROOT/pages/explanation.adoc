@@ -1,0 +1,93 @@
+// EXPLANATION — Diátaxis
+// This page is understanding-shaped: "what is this, why, how does it fit?"
+// DO: discuss design choices, alternatives, trade-offs; cross-link to how-to and reference.
+// DON'T: give step-by-step instructions; provide exhaustive field listings.
+// If a section drifts into "how do I do X" → move to how-to-guide.adoc.
+// If a section drifts into "list of all fields" → move to reference.adoc.
+
+= The Observability Dashboard
+
+== What it is
+
+The Observability Dashboard is a lightweight, in-cluster service that ingests
+OpenTelemetry traces from Agentic Layer workloads and broadcasts structured agent
+events to WebSocket clients in real time. It exposes an OTLP/HTTP endpoint at
+`/v1/traces`, processes each incoming span through a preprocessing pipeline, and
+pushes the resulting events to all connected dashboard clients. A bundled
+single-page application renders those events as a live activity feed, allowing
+operators to see agent lifecycle transitions, LLM calls, tool invocations, and
+agent-to-agent interactions as they occur.
+
+== Why it exists
+
+Classical APM tools — distributed tracing platforms and log aggregators — are built
+around request/response spans and service-level metrics. They work well for
+understanding which HTTP call was slow or which database query took too long. Agentic
+systems have a different shape: a single user message may trigger a conversation that
+spans multiple agents, dozens of LLM calls, and many tool invocations, all linked by
+a shared `conversation_id`. The raw OTel spans that capture this activity are correct
+and importable into any standards-compliant backend, but navigating a flamegraph to
+understand whether a summarizer agent received the right context from a news-fetcher
+tool is cumbersome.
+
+The Observability Dashboard solves this by translating raw spans into a vocabulary
+that matches the mental model of agentic systems: `agent_start`, `llm_call_end`,
+`invoke_agent_start`, and so on. It does not replace a general-purpose observability
+stack — the Agentic Layer showcase also deploys Grafana with LGTM for metrics and
+logs — but it provides a focused, low-friction view that surfaces agent-level
+communication patterns without requiring knowledge of OTel span attributes or
+TraceQL.
+
+== How it fits
+
+The dashboard sits downstream of both the AI Gateway and the Agent Runtime in the
+Agentic Layer. The Agent Runtime Operator manages the agent workloads; each agent
+framework emits OTel spans bearing `conversation_id` and `agent_name` attributes,
+which the agents export to the dashboard's `/v1/traces` endpoint over the
+cluster-internal network.
+
+When a trace batch arrives, the span preprocessor (`span_preprocessor.py`) examines
+each span's name against a set of known prefixes (`before_agent`, `before_model`,
+`after_tool`, etc.) to determine the event type, extracts required span attributes,
+and constructs a typed event object. The connection manager then delivers the event
+as a JSON-serialized WebSocket message to every connected client whose optional
+filter criteria (conversation ID and/or workforce name) match the event.
+
+The result is a push-based pipeline: OTel spans in → structured events out → WebSocket
+push to dashboard. No polling, no persistent storage, no secondary database.
+
+== Trade-offs and alternatives
+
+=== WebSocket push vs. polling
+
+The dashboard delivers events to browsers over a persistent WebSocket connection
+rather than having clients poll an HTTP endpoint. This reduces latency from
+multi-second poll intervals to near-zero and eliminates redundant requests when no
+events are occurring. The trade-off is that each connected client holds an open TCP
+connection for the lifetime of the session, which can become a resource concern at
+scale. For the observability use case — a small number of human operators watching a
+dashboard — this is the right choice.
+
+=== Structured events vs. raw spans
+
+The preprocessing step discards spans that do not match the known agent-event
+patterns and remaps the ones that do match into a small, stable set of event types.
+This makes the WebSocket protocol easy to consume in a browser without requiring
+clients to understand OTel semantics. The cost is that the dashboard silently drops
+spans it does not recognise; consumers that need the full OTel record should send
+traces to a general-purpose backend (such as the LGTM stack in the showcase) in
+parallel.
+
+=== In-cluster deployment vs. external SaaS APM
+
+Deploying the dashboard in-cluster keeps agent trace data within the Kubernetes
+network boundary and avoids egress costs or data-residency concerns. It also means
+that the dashboard's state is ephemeral: events are not persisted, and filter
+registry entries expire after 24 hours of inactivity. Teams that need historical
+trace search, alerting, or long-term retention should export spans to a persistent
+backend alongside the dashboard.
+
+== Related
+
+* xref:observability-dashboard::how-to-guide.adoc[]
+* xref:observability-dashboard::reference.adoc[]
